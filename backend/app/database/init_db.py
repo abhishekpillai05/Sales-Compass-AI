@@ -1,6 +1,7 @@
 from app.database.base import Base
-from app.database.models import User, Document, Product, Chunk, QueryLog
+from app.database.models import User, Document, Product, Chunk, QueryLog, UserSession
 from app.database.session import engine
+
 
 
 def init_database():

@@ -22,7 +22,8 @@ if not QDRANT_API_KEY:
 
 client = QdrantClient(
     url=QDRANT_URL,
-    api_key=QDRANT_API_KEY
+    api_key=QDRANT_API_KEY,
+    timeout=30,
 )
 
 

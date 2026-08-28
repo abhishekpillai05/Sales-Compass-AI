@@ -11,7 +11,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 GROQ_MODEL = os.getenv(
     "GROQ_MODEL",
-    "qwen/qwen3.6-27b",
+    "qwen/qwen3-32b",
 )
 
 GENERATION_TEMPERATURE = float(
@@ -21,16 +21,21 @@ GENERATION_TEMPERATURE = float(
     )
 )
 
-
-if not GROQ_API_KEY:
-    raise ValueError(
-        "GROQ_API_KEY is not set in .env"
-    )
+# Lazy singleton — created on first call so missing key doesn't crash startup.
+_groq_client: Groq | None = None
 
 
-client = Groq(
-    api_key=GROQ_API_KEY
-)
+def _get_client() -> Groq:
+    """Return the Groq client, raising a clear error if the key is missing."""
+    global _groq_client
+    if _groq_client is None:
+        if not GROQ_API_KEY:
+            raise RuntimeError(
+                "GROQ_API_KEY is not set in backend/.env. "
+                "Add GROQ_API_KEY=<your-key> to enable response generation."
+            )
+        _groq_client = Groq(api_key=GROQ_API_KEY)
+    return _groq_client
 
 
 def generate_llm_response(
@@ -44,6 +49,8 @@ def generate_llm_response(
 
     if temperature is None:
         temperature = GENERATION_TEMPERATURE
+
+    client = _get_client()
 
     try:
 
@@ -59,4 +66,4 @@ def generate_llm_response(
 
         raise RuntimeError(
             f"Groq response generation failed: {str(e)}"
-        ) from e
+        ) from e

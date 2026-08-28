@@ -15,7 +15,7 @@ from app.retrieval.schemas import (
 load_dotenv()
 
 
-COLLECTION_NAME = "product_chunks_test"
+COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "product_chunks")
 
 TOP_K = int(
     os.getenv("RETRIEVAL_TOP_K", "5")
