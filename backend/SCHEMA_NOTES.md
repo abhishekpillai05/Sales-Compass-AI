@@ -1,12 +1,21 @@
 # SalesCompass AI — Database Schema Notes
 
-## Migration Framework
+## Schema Management Approach
 
-This project does **not** currently use Alembic or any other migration framework.
-Schema management is handled by SQLAlchemy `create_all()` at startup.
+This project does **not** currently use Alembic or any other database migration framework.
 
-> **Note**: Formal migration management should be introduced as a dedicated task
-> before production deployment. Consider `alembic init` with autogenerate.
+`SQLAlchemy`'s `Base.metadata.create_all()` (called in `init_db.py`) creates **missing tables**
+on a fresh database, but it **does not** modify existing tables, add columns, change constraints,
+or remove columns. It is not a substitute for database migrations.
+
+- **Fresh deployment** → `create_all()` creates all tables from the current ORM models correctly.
+- **Existing database with schema changes** → requires explicit `ALTER TABLE` statements or a
+  migration tool such as Alembic.
+
+The current Neon database was manually migrated to be compatible with the Phase 6 ORM model
+(see "One-Time Manual Migrations" below). No migration framework is configured.
+
+> **Recommendation**: Introduce Alembic as a dedicated future task before production deployment.
 
 ---
 
@@ -28,6 +37,7 @@ Schema management is handled by SQLAlchemy `create_all()` at startup.
 
 These were applied once to the Neon PostgreSQL database to align the live
 schema with the SQLAlchemy model after Phase 6 renamed `password` → `password_hash`.
+`create_all()` alone could not perform these changes because the `users` table already existed.
 
 ### Migration 1 — Add `password_hash` column
 
@@ -51,14 +61,13 @@ ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
 
 ---
 
-## Running `create_all()` on a Fresh Database
+## Fresh Database Deployment
 
-For a brand-new deployment, `create_all()` in `backend/app/database/init_db.py`
-will create all tables correctly from the current models — **no manual SQL needed**.
-
-The manual migrations above are only needed when upgrading an **existing** database
-that was originally created with the pre-Phase-6 schema (which had `password` instead
-of `password_hash`).
+For a **brand-new** deployment against an empty database, `create_all()` in
+`backend/app/database/init_db.py` will create all tables correctly from the
+current ORM models. The manual migrations above are **not needed** in that case —
+they were only required to update the pre-existing Neon database that predated
+the Phase 6 `password` → `password_hash` rename.
 
 ---
 
