@@ -35,3 +35,11 @@ htmlcov/
 
 # Uploads (runtime data, not source)
 uploads/
+
+# Local diagnostic / migration scripts (not part of application source)
+backend/check_infra.py
+backend/create_tables.py
+backend/diag_indexer.py
+backend/fix_password_col.py
+backend/list_groq_models.py
+backend/migrate_users.py
