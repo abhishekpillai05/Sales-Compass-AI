@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.auth.dependencies import get_current_user
 from app.database.models import User
 from app.database.session import SessionLocal
+from app.logging.config import get_logger
 from app.logging.query_logger import log_query
 
 from app.retrieval.api_schemas import SearchRequest
@@ -11,6 +12,8 @@ from app.retrieval.retriever import retrieve
 from app.generation.generator import generate_response
 from app.generation.api_schemas import AskResponse
 
+
+logger = get_logger(__name__)
 
 router = APIRouter(
     prefix="/ask",
@@ -57,16 +60,25 @@ def ask(
             retrieval_response=retrieval_response,
         )
 
-        # Step 3: Log the user's query
+        # Step 3: Log the user's query (Phase 7 query logging — preserved)
         log_query(
             db=db,
             user_id=current_user.id,
             query=request.query,
         )
 
+        logger.info(
+            "ask completed user_id=%d query_length=%d chunks_retrieved=%d",
+            current_user.id,
+            len(request.query),
+            retrieval_response.total_results,
+        )
+
         return response
 
     except ValueError as e:
+
+        logger.warning("ask validation error user_id=%d error=%s", current_user.id, str(e))
 
         raise HTTPException(
             status_code=400,
@@ -74,6 +86,13 @@ def ask(
         )
 
     except Exception as e:
+
+        logger.error(
+            "ask unexpected error user_id=%d error_type=%s message=%s",
+            current_user.id,
+            type(e).__name__,
+            str(e),
+        )
 
         raise HTTPException(
             status_code=500,

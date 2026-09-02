@@ -5,7 +5,10 @@ from app.database.session import SessionLocal
 from app.ingestion.service import ingest_document
 from app.ingestion.bridge import document_chunks_to_chunk_inputs
 from app.knowledge_indexing import index_chunks
+from app.logging.config import get_logger
 
+
+logger = get_logger(__name__)
 
 router = APIRouter(
     prefix="/upload",
@@ -36,6 +39,8 @@ async def upload_document(
 
     try:
 
+        logger.info("upload started filename=%s", file.filename)
+
         file_content = await file.read()
 
         # ── Phase 3: Ingestion ──────────────────────────────────────────────
@@ -59,6 +64,16 @@ async def upload_document(
             if not r.success
         ]
 
+        logger.info(
+            "upload completed filename=%s document_id=%s chunks_created=%d "
+            "chunks_indexed=%d chunks_failed=%d",
+            file.filename,
+            result["document_id"],
+            len(document_chunks),
+            indexed_count,
+            failed_count,
+        )
+
         return {
             "success": True,
             "document_id": result["document_id"],
@@ -80,12 +95,21 @@ async def upload_document(
 
     except ValueError as e:
 
+        logger.warning("upload validation error filename=%s error=%s", file.filename, str(e))
+
         raise HTTPException(
             status_code=400,
             detail=str(e),
         )
 
     except Exception as e:
+
+        logger.error(
+            "upload unexpected error filename=%s error_type=%s message=%s",
+            file.filename,
+            type(e).__name__,
+            str(e),
+        )
 
         raise HTTPException(
             status_code=500,

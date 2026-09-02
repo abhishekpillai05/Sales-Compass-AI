@@ -1,5 +1,13 @@
 from fastapi import FastAPI
 
+# Phase 9: configure logging before anything else runs
+from app.logging.config import configure_logging
+
+configure_logging()
+
+# Phase 9: request logging middleware
+from app.middleware.request_logging import RequestLoggingMiddleware
+
 # Phase 1-5 routers
 from app.api.upload import router as upload_router
 from app.api.search import router as search_router
@@ -14,12 +22,15 @@ app = FastAPI(
     title="SalesCompass AI",
     version="1.0.0",
     description=(
-        "Sales Compass AI — Phases 1-7: "
+        "Sales Compass AI — Phases 1-9: "
         "Ingestion, Knowledge Indexing, Retrieval, "
-        "Response Generation, Authentication, and Query Logging."
+        "Response Generation, Authentication, Query Logging, "
+        "and Structured Request Logging."
     ),
 )
 
+# Phase 9: attach HTTP request logging middleware
+app.add_middleware(RequestLoggingMiddleware)
 
 # Phase 1-5
 app.include_router(upload_router)
@@ -35,6 +46,6 @@ app.include_router(query_logs_router)
 def root():
     return {
         "message": "SalesCompass AI API is running",
-        "phases": "1-7",
+        "phases": "1-9",
         "docs": "/docs",
-    }
+    }
