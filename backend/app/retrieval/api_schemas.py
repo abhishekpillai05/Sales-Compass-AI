@@ -26,3 +26,7 @@ class SearchRequest(BaseModel):
     category: Optional[str] = None
     manufacturer: Optional[str] = None
     document_id: Optional[int] = None
+    conversation_id: Optional[int] = Field(
+        default=None,
+        description="Optional conversation ID for persistent chat history",
+    )

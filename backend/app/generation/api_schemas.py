@@ -13,4 +13,5 @@ class SourceResponse(BaseModel):
 class AskResponse(BaseModel):
     query: str
     answer: str
+    conversation_id: int
     sources: list[SourceResponse]

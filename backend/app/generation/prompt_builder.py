@@ -1,10 +1,11 @@
 def build_messages(
     query: str,
     context: str,
+    conversation_history: list[dict] | None = None,
 ) -> list[dict]:
     """
-    Build messages for the LLM using the
-    user query and retrieved catalog context.
+    Build messages for the LLM using the user query,
+    retrieved catalog context, and optional prior conversation history.
     """
 
     system_prompt = """
@@ -32,6 +33,10 @@ Rules:
 
 6. When relevant, include important product identifiers
    such as SKU, product name, manufacturer, or category.
+
+7. When prior conversation messages exist, use that context to understand
+   the conversation flow and resolve references, but base all factual
+   product details strictly on the Product Catalog Information.
 """
 
     user_prompt = f"""
@@ -53,10 +58,22 @@ Answer the question using only the product catalog information above.
             "role": "system",
             "content": system_prompt.strip(),
         },
-        {
-            "role": "user",
-            "content": user_prompt.strip(),
-        },
     ]
+
+    # Prepend recent conversation history turns if provided
+    if conversation_history:
+        for turn in conversation_history[-8:]:
+            role = turn.get("role")
+            content = turn.get("content", "")
+            if role in ("user", "assistant") and content:
+                messages.append({
+                    "role": role,
+                    "content": content,
+                })
+
+    messages.append({
+        "role": "user",
+        "content": user_prompt.strip(),
+    })
 
     return messages

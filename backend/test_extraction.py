@@ -6,7 +6,7 @@ import fitz
 from app.ingestion.extract_text import extract_text
 
 
-TEST_DIR = Path("test_documents")
+TEST_DIR = Path(__file__).parent / "test_documents"
 
 TEST_DIR.mkdir(exist_ok=True)
 
@@ -86,13 +86,14 @@ def create_test_csv():
     return file_path
 
 
-def test_extraction(file_path):
+def _run_extraction(file_path):
     print("\n" + "=" * 50)
     print(f"Testing: {file_path}")
 
     results = extract_text(file_path)
 
     print(f"Extracted sections: {len(results)}")
+    assert len(results) > 0, f"No sections extracted from {file_path}"
 
     for result in results:
 
@@ -112,12 +113,15 @@ def test_extraction(file_path):
         print(result["text"])
 
 
-if __name__ == "__main__":
-
+def test_extraction():
     pdf = create_test_pdf()
     excel = create_test_excel()
     csv = create_test_csv()
 
-    test_extraction(pdf)
-    test_extraction(excel)
-    test_extraction(csv)
+    _run_extraction(pdf)
+    _run_extraction(excel)
+    _run_extraction(csv)
+
+
+if __name__ == "__main__":
+    test_extraction()

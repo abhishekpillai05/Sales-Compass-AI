@@ -17,6 +17,7 @@ from app.api.search import router as search_router
 from app.api.auth import router as auth_router
 from app.api.ask import router as ask_router
 from app.api.query_logs import router as query_logs_router
+from app.api.conversations import router as conversations_router
 
 
 app = FastAPI(
@@ -52,6 +53,7 @@ app.include_router(search_router)
 app.include_router(auth_router)
 app.include_router(ask_router)
 app.include_router(query_logs_router)
+app.include_router(conversations_router)
 
 
 @app.get("/")

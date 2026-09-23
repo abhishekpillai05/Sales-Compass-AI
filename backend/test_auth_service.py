@@ -5,17 +5,23 @@ from app.auth.services import (
 )
 
 
+import uuid
+
 db = SessionLocal()
 
+unique_id = uuid.uuid4().hex[:6]
+username = f"user_{unique_id}"
+email = f"user_{unique_id}@example.com"
+password = "testpassword123"
 
 try:
 
     # Create test user
     user = create_user(
         db=db,
-        username="jagu",
-        email="jagu@example.com",
-        password="testpassword123",
+        username=username,
+        email=email,
+        password=password,
         role="user",
     )
 
@@ -31,8 +37,8 @@ try:
 
     authenticated_user = authenticate_user(
         db=db,
-        username="jagu",
-        password="testpassword123",
+        username=username,
+        password=password,
     )
 
     if authenticated_user:

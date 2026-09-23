@@ -30,6 +30,8 @@ The current Neon database was manually migrated to be compatible with the Phase 
 | `query_logs` | `QueryLog` | FK → users.id, auto-timestamp |
 | `user_sessions` | `UserSession` | session_token (indexed, unique), expires_at, is_active |
 | `document_chunks` | *(via knowledge_indexing)* | chunk_id, metadata, qdrant_point_id |
+| `conversations` | `Conversation` | FK → users.id (cascade), title, created_at, updated_at |
+| `conversation_messages` | `ConversationMessage` | FK → conversations.id (cascade), role, content, sources (JSON), created_at |
 
 ---
 
@@ -58,6 +60,15 @@ ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
 ```
 
 **Script**: `backend/fix_password_col.py` (run once)
+
+### Migration 3 — Create `conversations` and `conversation_messages` tables (2026-09-23)
+
+```sql
+-- Creates conversations and conversation_messages tables with CASCADE deletion and indexes
+-- Handled idempotently via Base.metadata.create_all() in migrate_conversations.py
+```
+
+**Script**: `backend/migrate_conversations.py` (run once, verified)
 
 ---
 

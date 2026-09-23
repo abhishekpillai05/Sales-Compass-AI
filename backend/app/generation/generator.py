@@ -33,6 +33,7 @@ def filter_relevant_chunks(
 def generate_response(
     query: str,
     retrieval_response: RetrievalResponse,
+    conversation_history: list[dict] | None = None,
 ) -> dict:
 
     # No retrieval results
@@ -81,6 +82,7 @@ def generate_response(
     messages = build_messages(
         query=query,
         context=context,
+        conversation_history=conversation_history,
     )
 
     # Generate answer

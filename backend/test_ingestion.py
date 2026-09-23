@@ -1,3 +1,4 @@
+from pathlib import Path
 from app.ingestion.validators import validate_file
 from app.ingestion.upload import save_file
 
@@ -13,9 +14,11 @@ def test_valid_file():
 
     path = save_file(
         filename=filename,
-        file_content=file_content
+        file_content=content
     )
 
+    assert path is not None
+    assert Path(path).exists()
     print("File validation: PASSED")
     print("File storage: PASSED")
     print(f"Saved to: {path}")

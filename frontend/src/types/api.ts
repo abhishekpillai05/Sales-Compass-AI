@@ -34,6 +34,7 @@ export interface SearchRequest {
   category?: string | null;
   manufacturer?: string | null;
   document_id?: number | null;
+  conversation_id?: number | null;
 }
 
 export interface ChunkMetadata {
@@ -72,6 +73,7 @@ export interface SourceResponse {
 export interface AskResponse {
   query: string;
   answer: string;
+  conversation_id: number;
   sources: SourceResponse[];
 }
 
@@ -107,7 +109,31 @@ export interface ApiError {
   detail: string;
 }
 
-// ── Chat (local state only — NOT persisted by backend) ───────────────────────
+// ── Conversations (Persisted in PostgreSQL) ─────────────────────────────────
+
+export interface Conversation {
+  id: number;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  message_count: number;
+}
+
+export interface ConversationMessageItem {
+  id: number;
+  role: MessageRole;
+  content: string;
+  sources?: SourceResponse[] | null;
+  created_at: string;
+}
+
+export interface ConversationDetail {
+  id: number;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  messages: ConversationMessageItem[];
+}
 
 export type MessageRole = "user" | "assistant";
 

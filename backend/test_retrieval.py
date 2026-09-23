@@ -17,11 +17,11 @@ print("=" * 60)
 print("\nQuery:")
 print(query)
 
-print(f"\nResults returned: {len(results)}")
+print(f"\nResults returned: {results.total_results}")
 
 
 for index, result in enumerate(
-    results,
+    results.results,
     start=1,
 ):
 
@@ -32,16 +32,16 @@ for index, result in enumerate(
     print("-" * 60)
 
     print("Score:")
-    print(result["score"])
+    print(result.score)
 
     print("\nChunk ID:")
-    print(result["chunk_id"])
+    print(result.chunk_id)
 
     print("\nDocument ID:")
-    print(result["document_id"])
+    print(result.document_id)
 
     print("\nText:")
-    print(result["text"])
+    print(result.text)
 
     print("\nMetadata:")
-    print(result["metadata"])
+    print(result.metadata)

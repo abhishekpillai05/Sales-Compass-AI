@@ -81,3 +81,28 @@ export async function apiPostForm<TResponse>(
   });
   return handleResponse<TResponse>(res);
 }
+
+export async function apiDelete<TResponse>(path: string): Promise<TResponse> {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: { 'Accept': 'application/json' },
+  });
+  return handleResponse<TResponse>(res);
+}
+
+export async function apiPatch<TBody, TResponse>(
+  path: string,
+  body: TBody,
+): Promise<TResponse> {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  return handleResponse<TResponse>(res);
+}
