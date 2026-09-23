@@ -1,6 +1,8 @@
 # Environment variables - NEVER commit secrets
 .env
 **/.env
+.env.local
+**/.env.local
 
 # Python cache
 __pycache__/
@@ -43,3 +45,7 @@ backend/diag_indexer.py
 backend/fix_password_col.py
 backend/list_groq_models.py
 backend/migrate_users.py
+
+# Frontend build output and local env
+frontend/dist/
+frontend/node_modules/
