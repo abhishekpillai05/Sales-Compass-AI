@@ -73,13 +73,16 @@ def list_users(
     search: Optional[str] = Query(default=None, description="Search by username or email"),
     role: Optional[str] = Query(default=None, description="Filter by role: ADMIN or SALESMAN"),
     status: Optional[str] = Query(default=None, description="Filter by status: ACTIVE or REVOKED"),
+    sort_by: Optional[str] = Query(default="id", description="Field to sort by: id, username, email, role, status, created_at"),
+    order: Optional[str] = Query(default="asc", description="Sort order: asc or desc"),
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
     current_user: User = Depends(require_role(UserRole.ADMIN.value)),
     db: Session = Depends(get_db),
 ):
     """
-    List all registered users with optional search and role/status filtering.
+    List all registered users with optional search, role/status filtering, and sorting.
+    Defaults to sorting by ID number (ascending).
     Restricted strictly to administrators.
     """
     query = db.query(User)
@@ -102,7 +105,28 @@ def list_users(
         query = query.filter(User.status == norm_status)
 
     total = query.count()
-    users = query.order_by(User.id.asc()).offset(offset).limit(limit).all()
+
+    # Determine sorting column and direction
+    sort_col_map = {
+        "id": User.id,
+        "username": User.username,
+        "email": User.email,
+        "role": User.role,
+        "status": User.status,
+        "created_at": User.created_at,
+    }
+
+    field_key = (sort_by or "id").lower().strip()
+    order_direction = (order or "asc").lower().strip()
+    is_desc = order_direction == "desc"
+
+    col = sort_col_map.get(field_key, User.id)
+    if is_desc:
+        query = query.order_by(col.desc(), User.id.desc())
+    else:
+        query = query.order_by(col.asc(), User.id.asc())
+
+    users = query.offset(offset).limit(limit).all()
 
     # Batch query last login for all users on this page
     user_ids = [u.id for u in users]

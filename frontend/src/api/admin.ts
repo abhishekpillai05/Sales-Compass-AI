@@ -11,6 +11,8 @@ export interface GetUsersParams {
   search?: string;
   role?: string;
   status?: string;
+  sort_by?: string;
+  order?: 'asc' | 'desc';
   limit?: number;
   offset?: number;
 }
@@ -24,6 +26,8 @@ export const adminApi = {
     if (params?.search) searchParams.set('search', params.search);
     if (params?.role) searchParams.set('role', params.role);
     if (params?.status) searchParams.set('status', params.status);
+    if (params?.sort_by) searchParams.set('sort_by', params.sort_by);
+    if (params?.order) searchParams.set('order', params.order);
     if (params?.limit !== undefined) searchParams.set('limit', String(params.limit));
     if (params?.offset !== undefined) searchParams.set('offset', String(params.offset));
 

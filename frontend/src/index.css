@@ -1711,3 +1711,41 @@ input[type="range"]::-webkit-slider-thumb:hover {
   color: #065f46;
 }
 
+/* ─── Table Sorting ──────────────────────────────────────────────────────────── */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.th-sortable:hover {
+  background: var(--color-neutral-100) !important;
+  color: var(--color-brand-600) !important;
+}
+
+.th-sortable-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sort-icon-active {
+  color: var(--color-brand-600);
+}
+
+.sort-icon-idle {
+  color: var(--color-text-muted);
+  opacity: 0.35;
+  transition: opacity var(--transition-fast);
+}
+
+.th-sortable:hover .sort-icon-idle {
+  opacity: 0.85;
+}
+
+.management-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+

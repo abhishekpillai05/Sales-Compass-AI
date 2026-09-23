@@ -145,6 +145,39 @@ class TestAdminViewUsers:
             assert "role" in user
             assert "status" in user
 
+    def test_admin_users_sorting_parameters(self, client):
+        from app.api.admin_users import get_db as admin_get_db
+
+        admin = make_user(role="ADMIN", user_id=1, username="superadmin")
+        app.dependency_overrides[get_current_user] = lambda: admin
+
+        u1 = make_user(role="ADMIN", status="ACTIVE", user_id=1, username="superadmin")
+        u2 = make_user(role="SALESMAN", status="ACTIVE", user_id=2, username="john_sales")
+
+        def mock_db():
+            db = MagicMock()
+            query_mock = db.query.return_value
+            query_mock.count.return_value = 2
+            query_mock.order_by.return_value.offset.return_value.limit.return_value.all.return_value = [
+                u2, u1
+            ]
+            db.query.return_value.filter.return_value.group_by.return_value.all.return_value = []
+            yield db
+
+        app.dependency_overrides[admin_get_db] = mock_db
+
+        # Test with sort_by and order query parameters
+        resp = client.get("/admin/users?sort_by=id&order=desc")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["total"] == 2
+
+        resp2 = client.get("/admin/users?sort_by=username&order=asc")
+        assert resp2.status_code == 200
+
+        resp3 = client.get("/admin/users?sort_by=created_at&order=desc")
+        assert resp3.status_code == 200
+
     def test_get_user_details_found(self, client):
         from app.api.admin_users import get_db as admin_get_db
 

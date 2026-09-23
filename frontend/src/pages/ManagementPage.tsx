@@ -13,6 +13,9 @@ import {
   Clock,
   Calendar,
   Lock,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { adminApi } from '@/api/admin';
 import { useAuth, getErrorMessage } from '@/contexts/AuthContext';
@@ -21,6 +24,22 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { ConfirmModal } from '@/components/common/ConfirmModal';
 import { format } from 'date-fns';
 import type { AdminUserItem, UserRole, UserStatus } from '@/types/api';
+
+export type SortMethod =
+  | 'id_asc'
+  | 'id_desc'
+  | 'username_asc'
+  | 'username_desc'
+  | 'email_asc'
+  | 'email_desc'
+  | 'role_admin'
+  | 'role_salesman'
+  | 'status_active'
+  | 'status_revoked'
+  | 'created_desc'
+  | 'created_asc'
+  | 'login_desc'
+  | 'login_asc';
 
 export function ManagementPage() {
   const { user: currentUser, isAdmin, isLoading: authLoading } = useAuth();
@@ -33,10 +52,11 @@ export function ManagementPage() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Filters
+  // Filters & Sorting (ID Ascending is the default)
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
+  const [sortMethod, setSortMethod] = useState<SortMethod>('id_asc');
 
   // Modal states
   const [roleModalUser, setRoleModalUser] = useState<AdminUserItem | null>(null);
@@ -54,15 +74,36 @@ export function ManagementPage() {
     }
   }, [authLoading, isAdmin, navigate]);
 
-  // Fetch users from API
+  // Fetch users from API with sorting and filters
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const params: { search?: string; role?: string; status?: string } = {};
+      const params: {
+        search?: string;
+        role?: string;
+        status?: string;
+        sort_by?: string;
+        order?: 'asc' | 'desc';
+      } = {};
+
       if (searchQuery.trim()) params.search = searchQuery.trim();
       if (roleFilter !== 'ALL') params.role = roleFilter;
       if (statusFilter !== 'ALL') params.status = statusFilter;
+
+      // Map sort method to backend parameters
+      if (sortMethod === 'id_asc') { params.sort_by = 'id'; params.order = 'asc'; }
+      else if (sortMethod === 'id_desc') { params.sort_by = 'id'; params.order = 'desc'; }
+      else if (sortMethod === 'username_asc') { params.sort_by = 'username'; params.order = 'asc'; }
+      else if (sortMethod === 'username_desc') { params.sort_by = 'username'; params.order = 'desc'; }
+      else if (sortMethod === 'email_asc') { params.sort_by = 'email'; params.order = 'asc'; }
+      else if (sortMethod === 'email_desc') { params.sort_by = 'email'; params.order = 'desc'; }
+      else if (sortMethod === 'role_admin') { params.sort_by = 'role'; params.order = 'asc'; }
+      else if (sortMethod === 'role_salesman') { params.sort_by = 'role'; params.order = 'desc'; }
+      else if (sortMethod === 'status_active') { params.sort_by = 'status'; params.order = 'asc'; }
+      else if (sortMethod === 'status_revoked') { params.sort_by = 'status'; params.order = 'desc'; }
+      else if (sortMethod === 'created_desc') { params.sort_by = 'created_at'; params.order = 'desc'; }
+      else if (sortMethod === 'created_asc') { params.sort_by = 'created_at'; params.order = 'asc'; }
 
       const res = await adminApi.getUsers(params);
       setUsers(res.users);
@@ -72,7 +113,7 @@ export function ManagementPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [searchQuery, roleFilter, statusFilter]);
+  }, [searchQuery, roleFilter, statusFilter, sortMethod]);
 
   // Load users when filters change
   useEffect(() => {
@@ -91,6 +132,113 @@ export function ManagementPage() {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
+
+  // Client-side instant sorting layer & computed list
+  const sortedUsers = useMemo(() => {
+    const list = [...users];
+    switch (sortMethod) {
+      case 'id_asc':
+        return list.sort((a, b) => a.id - b.id);
+      case 'id_desc':
+        return list.sort((a, b) => b.id - a.id);
+      case 'username_asc':
+        return list.sort((a, b) => (a.username || '').localeCompare(b.username || ''));
+      case 'username_desc':
+        return list.sort((a, b) => (b.username || '').localeCompare(a.username || ''));
+      case 'email_asc':
+        return list.sort((a, b) => (a.email || '').localeCompare(b.email || ''));
+      case 'email_desc':
+        return list.sort((a, b) => (b.email || '').localeCompare(a.email || ''));
+      case 'role_admin':
+        return list.sort((a, b) => (a.role === 'ADMIN' ? -1 : 1));
+      case 'role_salesman':
+        return list.sort((a, b) => (a.role === 'SALESMAN' ? -1 : 1));
+      case 'status_active':
+        return list.sort((a, b) => (a.status === 'ACTIVE' ? -1 : 1));
+      case 'status_revoked':
+        return list.sort((a, b) => (a.status === 'REVOKED' ? -1 : 1));
+      case 'created_desc':
+        return list.sort(
+          (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+        );
+      case 'created_asc':
+        return list.sort(
+          (a, b) => new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+        );
+      case 'login_desc':
+        return list.sort((a, b) => {
+          if (!a.last_login && !b.last_login) return 0;
+          if (!a.last_login) return 1;
+          if (!b.last_login) return -1;
+          return new Date(b.last_login).getTime() - new Date(a.last_login).getTime();
+        });
+      case 'login_asc':
+        return list.sort((a, b) => {
+          if (!a.last_login && !b.last_login) return 0;
+          if (!a.last_login) return 1;
+          if (!b.last_login) return -1;
+          return new Date(a.last_login).getTime() - new Date(b.last_login).getTime();
+        });
+      default:
+        return list.sort((a, b) => a.id - b.id);
+    }
+  }, [users, sortMethod]);
+
+  const handleHeaderSort = (column: 'id' | 'email' | 'role' | 'status' | 'created' | 'login') => {
+    switch (column) {
+      case 'id':
+        setSortMethod(prev => (prev === 'id_asc' ? 'id_desc' : 'id_asc'));
+        break;
+      case 'email':
+        setSortMethod(prev => (prev === 'email_asc' ? 'email_desc' : 'email_asc'));
+        break;
+      case 'role':
+        setSortMethod(prev => (prev === 'role_admin' ? 'role_salesman' : 'role_admin'));
+        break;
+      case 'status':
+        setSortMethod(prev => (prev === 'status_active' ? 'status_revoked' : 'status_active'));
+        break;
+      case 'created':
+        setSortMethod(prev => (prev === 'created_desc' ? 'created_asc' : 'created_desc'));
+        break;
+      case 'login':
+        setSortMethod(prev => (prev === 'login_desc' ? 'login_asc' : 'login_desc'));
+        break;
+    }
+  };
+
+  const renderSortIcon = (column: 'id' | 'email' | 'role' | 'status' | 'created' | 'login') => {
+    let isActive = false;
+    let isAsc = true;
+    if (column === 'id' && (sortMethod === 'id_asc' || sortMethod === 'id_desc')) {
+      isActive = true;
+      isAsc = sortMethod === 'id_asc';
+    } else if (column === 'email' && (sortMethod === 'email_asc' || sortMethod === 'email_desc')) {
+      isActive = true;
+      isAsc = sortMethod === 'email_asc';
+    } else if (column === 'role' && (sortMethod === 'role_admin' || sortMethod === 'role_salesman')) {
+      isActive = true;
+      isAsc = sortMethod === 'role_admin';
+    } else if (column === 'status' && (sortMethod === 'status_active' || sortMethod === 'status_revoked')) {
+      isActive = true;
+      isAsc = sortMethod === 'status_active';
+    } else if (column === 'created' && (sortMethod === 'created_desc' || sortMethod === 'created_asc')) {
+      isActive = true;
+      isAsc = sortMethod === 'created_asc';
+    } else if (column === 'login' && (sortMethod === 'login_desc' || sortMethod === 'login_asc')) {
+      isActive = true;
+      isAsc = sortMethod === 'login_asc';
+    }
+
+    if (isActive) {
+      return isAsc ? (
+        <ArrowUp size={13} className="sort-icon-active" />
+      ) : (
+        <ArrowDown size={13} className="sort-icon-active" />
+      );
+    }
+    return <ArrowUpDown size={13} className="sort-icon-idle" />;
+  };
 
   // Handlers for initiating actions
   const openRoleModal = (user: AdminUserItem) => {
@@ -217,7 +365,43 @@ export function ManagementPage() {
             />
           </div>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Sort Method Selector (ID Ascending is Default) */}
+            <div className="management-sort-wrapper">
+              <ArrowUpDown size={15} style={{ color: 'var(--color-text-muted)' }} />
+              <select
+                value={sortMethod}
+                onChange={e => setSortMethod(e.target.value as SortMethod)}
+                className="form-select"
+                id="sort-method-select"
+                title="Sort users by"
+              >
+                <optgroup label="ID Number (Default)">
+                  <option value="id_asc">Sort: ID (1 → 9) [Default]</option>
+                  <option value="id_desc">Sort: ID (9 → 1)</option>
+                </optgroup>
+                <optgroup label="Username & Email">
+                  <option value="username_asc">Sort: Username (A → Z)</option>
+                  <option value="username_desc">Sort: Username (Z → A)</option>
+                  <option value="email_asc">Sort: Email (A → Z)</option>
+                  <option value="email_desc">Sort: Email (Z → A)</option>
+                </optgroup>
+                <optgroup label="Date & Activity">
+                  <option value="created_desc">Sort: Registered (Newest)</option>
+                  <option value="created_asc">Sort: Registered (Oldest)</option>
+                  <option value="login_desc">Sort: Last Login (Recent)</option>
+                  <option value="login_asc">Sort: Last Login (Oldest)</option>
+                </optgroup>
+                <optgroup label="Role & Status">
+                  <option value="role_admin">Sort: Role (Admin first)</option>
+                  <option value="role_salesman">Sort: Role (Salesman first)</option>
+                  <option value="status_active">Sort: Status (Active first)</option>
+                  <option value="status_revoked">Sort: Status (Revoked first)</option>
+                </optgroup>
+              </select>
+            </div>
+
+            {/* Role Filter */}
             <select
               value={roleFilter}
               onChange={e => setRoleFilter(e.target.value)}
@@ -229,6 +413,7 @@ export function ManagementPage() {
               <option value="SALESMAN">Salesman</option>
             </select>
 
+            {/* Status Filter */}
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
@@ -266,17 +451,71 @@ export function ManagementPage() {
               <table className="data-table" id="admin-users-table">
                 <thead>
                   <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Registered</th>
-                    <th>Last Login</th>
+                    <th
+                      onClick={() => handleHeaderSort('id')}
+                      className="th-sortable"
+                      title="Click to sort by ID / User"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>User (ID)</span>
+                        {renderSortIcon('id')}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleHeaderSort('email')}
+                      className="th-sortable"
+                      title="Click to sort by Email"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>Email</span>
+                        {renderSortIcon('email')}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleHeaderSort('role')}
+                      className="th-sortable"
+                      title="Click to sort by Role"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>Role</span>
+                        {renderSortIcon('role')}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleHeaderSort('status')}
+                      className="th-sortable"
+                      title="Click to sort by Status"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>Status</span>
+                        {renderSortIcon('status')}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleHeaderSort('created')}
+                      className="th-sortable"
+                      title="Click to sort by Registration Date"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>Registered</span>
+                        {renderSortIcon('created')}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => handleHeaderSort('login')}
+                      className="th-sortable"
+                      title="Click to sort by Last Login"
+                    >
+                      <div className="th-sortable-inner">
+                        <span>Last Login</span>
+                        {renderSortIcon('login')}
+                      </div>
+                    </th>
                     <th style={{ textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map(u => {
+                  {sortedUsers.map(u => {
                     const isSelf = currentUser?.id === u.id;
                     const isUserAdmin = u.role.toUpperCase() === 'ADMIN';
                     const isUserActive = u.status.toUpperCase() === 'ACTIVE';
