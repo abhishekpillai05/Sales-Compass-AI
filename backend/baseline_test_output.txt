@@ -1,0 +1,2008 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.5, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\abhis\OneDrive\Desktop\salescompass-ai\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\abhis\OneDrive\Desktop\salescompass-ai\backend
+configfile: pytest.ini
+plugins: anyio-4.14.2
+collecting ... collected 91 items
+
+tests/test_auth_admin.py::TestAdminUnauthenticated::test_unauthenticated_returns_401 PASSED [  1%]
+tests/test_auth_admin.py::TestAdminUnauthenticated::test_unauthenticated_response_has_detail PASSED [  2%]
+tests/test_auth_admin.py::TestAdminUnauthenticated::test_unauthenticated_with_invalid_cookie_returns_401_or_403 PASSED [  3%]
+tests/test_auth_admin.py::TestAdminNormalUser::test_normal_user_returns_403 PASSED [  4%]
+tests/test_auth_admin.py::TestAdminNormalUser::test_normal_user_forbidden_message PASSED [  5%]
+tests/test_auth_admin.py::TestAdminNormalUser::test_sales_role_user_returns_403 PASSED [  6%]
+tests/test_auth_admin.py::TestAdminAuthorizedUser::test_admin_user_returns_200 PASSED [  7%]
+tests/test_auth_admin.py::TestAdminAuthorizedUser::test_admin_user_gets_list_response PASSED [  8%]
+tests/test_auth_admin.py::TestAdminAuthorizedUser::test_admin_user_gets_log_entries PASSED [  9%]
+tests/test_auth_admin.py::TestRequireRoleDependency::test_require_role_passes_for_matching_role PASSED [ 10%]
+tests/test_auth_admin.py::TestRequireRoleDependency::test_require_role_raises_403_for_wrong_role PASSED [ 12%]
+tests/test_auth_admin.py::TestRequireRoleDependency::test_require_role_detail_message PASSED [ 13%]
+tests/test_auth_admin.py::TestQueryLogger::test_log_query_creates_record PASSED [ 14%]
+tests/test_auth_admin.py::TestQueryLogger::test_log_query_returns_log_object PASSED [ 15%]
+tests/test_auth_admin.py::TestQueryLogger::test_log_query_stores_correct_user_id PASSED [ 16%]
+tests/test_auth_admin.py::TestQueryLogger::test_log_query_stores_correct_query PASSED [ 17%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_returns_list PASSED [ 18%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_correct_dimension PASSED [ 19%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_values_are_floats PASSED [ 20%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_empty_string_raises PASSED [ 21%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_whitespace_only_raises PASSED [ 23%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_non_string_raises PASSED [ 24%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_non_string_int_raises PASSED [ 25%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_deterministic_output PASSED [ 26%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_different_texts_differ PASSED [ 27%]
+tests/test_embedding_service.py::TestGenerateEmbedding::test_long_text PASSED [ 28%]
+tests/test_embedding_service.py::TestGetEmbeddingDimension::test_returns_integer PASSED [ 29%]
+tests/test_embedding_service.py::TestGetEmbeddingDimension::test_returns_384 PASSED [ 30%]
+tests/test_indexer.py::TestIndexChunkSuccess::test_index_chunk_returns_success FAILED [ 31%]
+tests/test_indexer.py::TestIndexChunkSuccess::test_result_has_chunk_id PASSED [ 32%]
+tests/test_indexer.py::TestIndexChunkSuccess::test_result_has_qdrant_point_id FAILED [ 34%]
+tests/test_indexer.py::TestIndexChunkSuccess::test_result_has_no_error_on_success FAILED [ 35%]
+tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_in_qdrant_payload FAILED [ 36%]
+tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_in_postgres FAILED [ 37%]
+tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_identical_in_both_systems FAILED [ 38%]
+tests/test_indexer.py::TestChunkIdLinkage::test_metadata_stored_in_postgres FAILED [ 39%]
+tests/test_indexer.py::TestChunkIdLinkage::test_metadata_in_qdrant_payload FAILED [ 40%]
+tests/test_indexer.py::TestIdempotency::test_reindex_same_chunk_returns_success FAILED [ 41%]
+tests/test_indexer.py::TestIdempotency::test_reindex_same_point_id PASSED [ 42%]
+tests/test_indexer.py::TestIdempotency::test_reindex_no_pg_duplicates FAILED [ 43%]
+tests/test_indexer.py::TestInvalidChunks::test_empty_text_returns_failure PASSED [ 45%]
+tests/test_indexer.py::TestInvalidChunks::test_whitespace_text_returns_failure PASSED [ 46%]
+tests/test_indexer.py::TestInvalidChunks::test_empty_chunk_id_returns_failure PASSED [ 47%]
+tests/test_indexer.py::TestInvalidChunks::test_non_chunk_input_returns_failure PASSED [ 48%]
+tests/test_indexer.py::TestBatchIndexing::test_index_chunks_processes_all FAILED [ 49%]
+tests/test_indexer.py::TestBatchIndexing::test_index_chunks_empty_list PASSED [ 50%]
+tests/test_indexer.py::TestBatchIndexing::test_bad_chunk_does_not_abort_batch FAILED [ 51%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_chunk_id PASSED [ 52%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_text PASSED [ 53%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_document_id PASSED [ 54%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_sku PASSED [ 56%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_category PASSED [ 57%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_sheet_name PASSED [ 58%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_bridge_preserves_row_number PASSED [ 59%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_text_not_in_metadata_dict PASSED [ 60%]
+tests/test_pipeline_integration.py::TestBridgeAdapter::test_batch_bridge PASSED [ 61%]
+tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_text PASSED [ 62%]
+tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_document_id FAILED [ 63%]
+tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_chunk_id FAILED [ 64%]
+tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_metadata_fields FAILED [ 65%]
+tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_sheet_and_row FAILED [ 67%]
+tests/test_pipeline_integration.py::TestPostgreSQLLinkage::test_pg_record_created FAILED [ 68%]
+tests/test_pipeline_integration.py::TestPostgreSQLLinkage::test_pg_chunk_id_matches_qdrant FAILED [ 69%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_smoke_test_full_pipeline FAILED [ 70%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_idempotent_reindex_no_duplicate_retrieval FAILED [ 71%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_empty_query_raises PASSED [ 72%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_whitespace_query_raises PASSED [ 73%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_no_match_returns_empty_safely FAILED [ 74%]
+tests/test_pipeline_integration.py::TestEndToEndPipeline::test_document_filter FAILED [ 75%]
+tests/test_pipeline_integration.py::TestBatchPipelineIntegration::test_batch_index_from_phase3_chunks FAILED [ 76%]
+tests/test_pipeline_integration.py::TestBatchPipelineIntegration::test_batch_with_invalid_chunk_does_not_abort FAILED [ 78%]
+tests/test_postgres_service.py::TestPostgreSQLConnection::test_table_can_be_ensured FAILED [ 79%]
+tests/test_postgres_service.py::TestPostgreSQLConnection::test_table_ensure_is_idempotent FAILED [ 80%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_insert_returns_without_error FAILED [ 81%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_inserted_record_is_retrievable FAILED [ 82%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_all_metadata_fields_stored FAILED [ 83%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_upsert_updates_existing_record FAILED [ 84%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_upsert_no_duplicate_records FAILED [ 85%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_null_metadata_fields_allowed FAILED [ 86%]
+tests/test_postgres_service.py::TestPostgreSQLUpsert::test_timestamps_are_present FAILED [ 87%]
+tests/test_postgres_service.py::TestPostgreSQLValidation::test_empty_chunk_id_raises PASSED [ 89%]
+tests/test_postgres_service.py::TestPostgreSQLValidation::test_whitespace_chunk_id_raises PASSED [ 90%]
+tests/test_qdrant_service.py::TestQdrantConnection::test_collection_can_be_ensured FAILED [ 91%]
+tests/test_qdrant_service.py::TestQdrantConnection::test_collection_idempotent FAILED [ 92%]
+tests/test_qdrant_service.py::TestQdrantUpsert::test_upsert_returns_point_id FAILED [ 93%]
+tests/test_qdrant_service.py::TestQdrantUpsert::test_upserted_payload_has_chunk_id FAILED [ 94%]
+tests/test_qdrant_service.py::TestQdrantUpsert::test_upsert_idempotent_no_duplicates FAILED [ 95%]
+tests/test_qdrant_service.py::TestQdrantUpsert::test_empty_vector_raises PASSED [ 96%]
+tests/test_qdrant_service.py::TestPointIdDeterminism::test_same_chunk_id_gives_same_point_id PASSED [ 97%]
+tests/test_qdrant_service.py::TestPointIdDeterminism::test_different_chunk_ids_give_different_point_ids PASSED [ 98%]
+tests/test_qdrant_service.py::TestPointIdDeterminism::test_point_id_is_valid_uuid_format PASSED [100%]
+
+================================== FAILURES ===================================
+___________ TestIndexChunkSuccess.test_index_chunk_returns_success ____________
+tests\test_indexer.py:61: in test_index_chunk_returns_success
+    assert result.success is True, f"Expected success, got error: {result.error}"
+E   AssertionError: Expected success, got error: Could not ensure 'document_chunks' table exists.
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-d12857e9232840889f05c10e2acf6acc', success=False, qdrant_point_id=None, error="Could not ensure 'document_chunks' table exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) connection to server at "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" (2600:1f16:1c4:660e:b5e5:7b24:2f45:5623), port 5432 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure 'document_chunks' table exists.
+____________ TestIndexChunkSuccess.test_result_has_qdrant_point_id ____________
+tests\test_indexer.py:69: in test_result_has_qdrant_point_id
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-18b667ece08d4046a484400209dace19', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+__________ TestIndexChunkSuccess.test_result_has_no_error_on_success __________
+tests\test_indexer.py:76: in test_result_has_no_error_on_success
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-0c92089b50a242e1b48c6266243ebae6', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+_____________ TestChunkIdLinkage.test_chunk_id_in_qdrant_payload ______________
+tests\test_indexer.py:88: in test_chunk_id_in_qdrant_payload
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-f4998a743b384920a26ac280659ed709', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+________________ TestChunkIdLinkage.test_chunk_id_in_postgres _________________
+tests\test_indexer.py:96: in test_chunk_id_in_postgres
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-9a7ffd409c314b98999ad829952b5949', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+_________ TestChunkIdLinkage.test_chunk_id_identical_in_both_systems __________
+tests\test_indexer.py:105: in test_chunk_id_identical_in_both_systems
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-afb7988969ea47bd9fc646e73248343f', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+_____________ TestChunkIdLinkage.test_metadata_stored_in_postgres _____________
+tests\test_indexer.py:123: in test_metadata_stored_in_postgres
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-2cf5d60abb0d4f08bad0a3efff8e1817', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+_____________ TestChunkIdLinkage.test_metadata_in_qdrant_payload ______________
+tests\test_indexer.py:135: in test_metadata_in_qdrant_payload
+    assert result.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-290795c8b21b417db81c4c3c019b667f', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+___________ TestIdempotency.test_reindex_same_chunk_returns_success ___________
+tests\test_indexer.py:147: in test_reindex_same_chunk_returns_success
+    assert result1.success is True
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='indexer-test-83170298d79b49599caaff19b28ebdb0', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+________________ TestIdempotency.test_reindex_no_pg_duplicates ________________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:712: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\impl.py:178: in _do_get
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\impl.py:176: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:389: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:674: in __init__
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: connection to server at "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" (2600:1f16:1c4:660e:b5e5:7b24:2f45:5623), port 5432 failed: SSL error: unexpected eof while reading
+
+The above exception was the direct cause of the following exception:
+tests\test_indexer.py:166: in test_reindex_no_pg_duplicates
+    with engine.connect() as conn:
+         ^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:712: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\impl.py:178: in _do_get
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\impl.py:176: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:389: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:674: in __init__
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" (2600:1f16:1c4:660e:b5e5:7b24:2f45:5623), port 5432 failed: SSL error: unexpected eof while reading
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+______________ TestBatchIndexing.test_index_chunks_processes_all ______________
+tests\test_indexer.py:219: in test_index_chunks_processes_all
+    assert all(r.success for r in results)
+E   assert False
+E    +  where False = all(<generator object TestBatchIndexing.test_index_chunks_processes_all.<locals>.<genexpr> at 0x00000220001B3340>)
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: The read operation timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+____________ TestBatchIndexing.test_bad_chunk_does_not_abort_batch ____________
+tests\test_indexer.py:234: in test_bad_chunk_does_not_abort_batch
+    assert results[1].success is True   # good chunk
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='batch-good-bee8d7bd85b8465097068bc4f67b40d5', success=False, qdrant_point_id=None, error="Could not ensure Qdrant collection 'product_chunks' exists.").success
+------------------------------ Captured log call ------------------------------
+WARNING  app.knowledge_indexing.indexer:indexer.py:114 Chunk validation failed: chunk_id='batch-bad': text must be a non-empty string.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:128 Infrastructure setup failed: Could not ensure Qdrant collection 'product_chunks' exists.
+______ TestQdrantPayloadCompleteness.test_qdrant_payload_has_document_id ______
+tests\test_pipeline_integration.py:188: in test_qdrant_payload_has_document_id
+    assert payload is not None
+E   assert None is not None
+------------------------------ Captured log call ------------------------------
+WARNING  app.knowledge_indexing.qdrant_service:qdrant_service.py:322 Could not retrieve point for chunk_id='payload-docid-4a18a680a58c492eb5927d4f7a4f9a1a': The read operation timed out
+_______ TestQdrantPayloadCompleteness.test_qdrant_payload_has_chunk_id ________
+tests\test_pipeline_integration.py:196: in test_qdrant_payload_has_chunk_id
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb': timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb': Failed to upsert vector for chunk_id='payload-cid-76f2c217bc474f59a51062e12f3780eb' into Qdrant.
+____ TestQdrantPayloadCompleteness.test_qdrant_payload_has_metadata_fields ____
+tests\test_pipeline_integration.py:214: in test_qdrant_payload_has_metadata_fields
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3': timed out
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3': Failed to upsert vector for chunk_id='payload-meta-38688831d75e4fa5b126593079b75bd3' into Qdrant.
+_____ TestQdrantPayloadCompleteness.test_qdrant_payload_has_sheet_and_row _____
+tests\test_pipeline_integration.py:233: in test_qdrant_payload_has_sheet_and_row
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7': Failed to upsert vector for chunk_id='payload-sheet-2bef620e8f54438ab638c11500cb13a7' into Qdrant.
+________________ TestPostgreSQLLinkage.test_pg_record_created _________________
+tests\test_pipeline_integration.py:253: in test_pg_record_created
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285': Failed to upsert vector for chunk_id='pg-test-a3d68da141fc481f9473d5c4813ff285' into Qdrant.
+____________ TestPostgreSQLLinkage.test_pg_chunk_id_matches_qdrant ____________
+tests\test_pipeline_integration.py:265: in test_pg_chunk_id_matches_qdrant
+    assert result.success
+E   assert False
+E    +  where False = IndexingResult(chunk_id='pg-qdrant-link-395d463c66e64136ae5bc7fa3ff34006', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='pg-qdrant-link-395d463c66e64136ae5bc7fa3ff34006' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='pg-qdrant-link-395d463c66e64136ae5bc7fa3ff34006': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='pg-qdrant-link-395d463c66e64136ae5bc7fa3ff34006': Failed to upsert vector for chunk_id='pg-qdrant-link-395d463c66e64136ae5bc7fa3ff34006' into Qdrant.
+_____________ TestEndToEndPipeline.test_smoke_test_full_pipeline ______________
+tests\test_pipeline_integration.py:317: in test_smoke_test_full_pipeline
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36': Failed to upsert vector for chunk_id='smoke-a6834bbec43547afaf1bfd9f6bf21c36' into Qdrant.
+_____ TestEndToEndPipeline.test_idempotent_reindex_no_duplicate_retrieval _____
+tests\test_pipeline_integration.py:364: in test_idempotent_reindex_no_duplicate_retrieval
+    assert r.success, f"Re-index failed: {r.error}"
+E   AssertionError: Re-index failed: Failed to upsert vector for chunk_id='idem-d4572e926d054a5d977e6a0e80428c69' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='idem-d4572e926d054a5d977e6a0e80428c69', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='idem-d4572e926d054a5d977e6a0e80428c69' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='idem-d4572e926d054a5d977e6a0e80428c69': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='idem-d4572e926d054a5d977e6a0e80428c69': Failed to upsert vector for chunk_id='idem-d4572e926d054a5d977e6a0e80428c69' into Qdrant.
+___________ TestEndToEndPipeline.test_no_match_returns_empty_safely ___________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+tests\test_pipeline_integration.py:385: in test_no_match_returns_empty_safely
+    response = retrieve(
+app\retrieval\retriever.py:158: in retrieve
+    results = client.query_points(
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:423: in query_points
+    return self._client.query_points(
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:585: in query_points
+    query_result = self.http.search_api.query_points(
+..\venv\Lib\site-packages\qdrant_client\http\api\search_api.py:783: in query_points
+    return self._build_for_query_points(
+..\venv\Lib\site-packages\qdrant_client\http\api\search_api.py:181: in _build_for_query_points
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+__________________ TestEndToEndPipeline.test_document_filter __________________
+tests\test_pipeline_integration.py:403: in test_document_filter
+    assert result.success, f"Indexing failed: {result.error}"
+E   AssertionError: Indexing failed: Failed to upsert vector for chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe': Failed to upsert vector for chunk_id='docfilter-373d9003101547e8b43aab6df6e23ebe' into Qdrant.
+______ TestBatchPipelineIntegration.test_batch_index_from_phase3_chunks _______
+tests\test_pipeline_integration.py:437: in test_batch_index_from_phase3_chunks
+    assert r.success, f"Batch indexing failed for {r.chunk_id}: {r.error}"
+E   AssertionError: Batch indexing failed for batch-e2e-5a2fe122d14b43d991e4765338beaad5: Failed to upsert vector for chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5' into Qdrant.
+E   assert False
+E    +  where False = IndexingResult(chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5': Failed to upsert vector for chunk_id='batch-e2e-5a2fe122d14b43d991e4765338beaad5' into Qdrant.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='batch-e2e-cddaedbb0d1e4c1ea710941ca78995ec': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='batch-e2e-cddaedbb0d1e4c1ea710941ca78995ec': Failed to upsert vector for chunk_id='batch-e2e-cddaedbb0d1e4c1ea710941ca78995ec' into Qdrant.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='batch-e2e-3ffffb6ca7454b518b5704eb01c9f492': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='batch-e2e-3ffffb6ca7454b518b5704eb01c9f492': Failed to upsert vector for chunk_id='batch-e2e-3ffffb6ca7454b518b5704eb01c9f492' into Qdrant.
+__ TestBatchPipelineIntegration.test_batch_with_invalid_chunk_does_not_abort __
+tests\test_pipeline_integration.py:456: in test_batch_with_invalid_chunk_does_not_abort
+    assert results[1].success is True   # good chunk
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   assert False is True
+E    +  where False = IndexingResult(chunk_id='good-498ca7acc81149c5a0edc14d9265623f', success=False, qdrant_point_id=None, error="Failed to upsert vector for chunk_id='good-498ca7acc81149c5a0edc14d9265623f' into Qdrant.").success
+------------------------------ Captured log call ------------------------------
+WARNING  app.knowledge_indexing.indexer:indexer.py:114 Chunk validation failed: chunk_id='bad-ee35962e3d0947dba7a1abe664da4efd': text must be a non-empty string.
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:282 Qdrant upsert failed for chunk_id='good-498ca7acc81149c5a0edc14d9265623f': [Errno 11001] getaddrinfo failed
+ERROR    app.knowledge_indexing.indexer:indexer.py:158 Qdrant upsert failed for chunk_id='good-498ca7acc81149c5a0edc14d9265623f': Failed to upsert vector for chunk_id='good-498ca7acc81149c5a0edc14d9265623f' into Qdrant.
+_____________ TestPostgreSQLConnection.test_table_can_be_ensured ______________
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1319: in _checkout
+    raise exc.InvalidatePoolError()
+E   sqlalchemy.exc.InvalidatePoolError: ()
+
+During handling of the above exception, another exception occurred:
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1353: in _checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1350: in _checkout
+    fairy._connection_record.get_connection()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1353: in _checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1350: in _checkout
+    fairy._connection_record.get_connection()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:51: in test_table_can_be_ensured
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+__________ TestPostgreSQLConnection.test_table_ensure_is_idempotent ___________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:55: in test_table_ensure_is_idempotent
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+___________ TestPostgreSQLUpsert.test_insert_returns_without_error ____________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:61: in test_insert_returns_without_error
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+__________ TestPostgreSQLUpsert.test_inserted_record_is_retrievable ___________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:72: in test_inserted_record_is_retrievable
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+____________ TestPostgreSQLUpsert.test_all_metadata_fields_stored _____________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:86: in test_all_metadata_fields_stored
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+__________ TestPostgreSQLUpsert.test_upsert_updates_existing_record ___________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:105: in test_upsert_updates_existing_record
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+____________ TestPostgreSQLUpsert.test_upsert_no_duplicate_records ____________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:135: in test_upsert_no_duplicate_records
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+___________ TestPostgreSQLUpsert.test_null_metadata_fields_allowed ____________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:156: in test_null_metadata_fields_allowed
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+______________ TestPostgreSQLUpsert.test_timestamps_are_present _______________
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   psycopg2.OperationalError: could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+The above exception was the direct cause of the following exception:
+app\knowledge_indexing\postgres_service.py:133: in ensure_table_exists
+    _metadata.create_all(engine, checkfirst=True)
+..\venv\Lib\site-packages\sqlalchemy\sql\schema.py:5930: in create_all
+    bind._run_ddl_visitor(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3269: in _run_ddl_visitor
+    with self.begin() as conn:
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3259: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3295: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:146: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:2450: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:144: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\base.py:3319: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:448: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:1272: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:717: in checkout
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:715: in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:837: in get_connection
+    self.__connect()
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:900: in __connect
+    with util.safe_reraise():
+..\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\venv\Lib\site-packages\sqlalchemy\pool\base.py:896: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\create.py:667: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\sqlalchemy\engine\default.py:630: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\psycopg2\__init__.py:135: in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+E   
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The above exception was the direct cause of the following exception:
+tests\test_postgres_service.py:172: in test_timestamps_are_present
+    ensure_table_exists()
+app\knowledge_indexing\postgres_service.py:137: in ensure_table_exists
+    raise RuntimeError("Could not ensure 'document_chunks' table exists.") from exc
+E   RuntimeError: Could not ensure 'document_chunks' table exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.postgres_service:postgres_service.py:136 Failed to create table 'document_chunks': (psycopg2.OperationalError) could not translate host name "ep-wild-field-ax92hq6g-pooler.c-4.us-east-2.aws.neon.tech" to address: Name or service not known
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+_____________ TestQdrantConnection.test_collection_can_be_ensured _____________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+app\knowledge_indexing\qdrant_service.py:102: in ensure_collection_exists
+    existing = [c.name for c in client.get_collections().collections]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:1577: in get_collections
+    return self._client.get_collections(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:1871: in get_collections
+    self.http.collections_api.get_collections().result
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:527: in get_collections
+    return self._build_for_get_collections()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:232: in _build_for_get_collections
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+tests\test_qdrant_service.py:66: in test_collection_can_be_ensured
+    ensure_collection_exists(vector_size=vector_size)
+app\knowledge_indexing\qdrant_service.py:127: in ensure_collection_exists
+    raise RuntimeError(
+E   RuntimeError: Could not ensure Qdrant collection 'product_chunks' exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: [Errno 11001] getaddrinfo failed
+_______________ TestQdrantConnection.test_collection_idempotent _______________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+app\knowledge_indexing\qdrant_service.py:102: in ensure_collection_exists
+    existing = [c.name for c in client.get_collections().collections]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:1577: in get_collections
+    return self._client.get_collections(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:1871: in get_collections
+    self.http.collections_api.get_collections().result
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:527: in get_collections
+    return self._build_for_get_collections()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:232: in _build_for_get_collections
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+tests\test_qdrant_service.py:70: in test_collection_idempotent
+    ensure_collection_exists(vector_size=vector_size)
+app\knowledge_indexing\qdrant_service.py:127: in ensure_collection_exists
+    raise RuntimeError(
+E   RuntimeError: Could not ensure Qdrant collection 'product_chunks' exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: [Errno 11001] getaddrinfo failed
+________________ TestQdrantUpsert.test_upsert_returns_point_id ________________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+app\knowledge_indexing\qdrant_service.py:102: in ensure_collection_exists
+    existing = [c.name for c in client.get_collections().collections]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:1577: in get_collections
+    return self._client.get_collections(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:1871: in get_collections
+    self.http.collections_api.get_collections().result
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:527: in get_collections
+    return self._build_for_get_collections()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:232: in _build_for_get_collections
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+tests\test_qdrant_service.py:76: in test_upsert_returns_point_id
+    ensure_collection_exists(vector_size=vector_size)
+app\knowledge_indexing\qdrant_service.py:127: in ensure_collection_exists
+    raise RuntimeError(
+E   RuntimeError: Could not ensure Qdrant collection 'product_chunks' exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: [Errno 11001] getaddrinfo failed
+_____________ TestQdrantUpsert.test_upserted_payload_has_chunk_id _____________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+app\knowledge_indexing\qdrant_service.py:102: in ensure_collection_exists
+    existing = [c.name for c in client.get_collections().collections]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:1577: in get_collections
+    return self._client.get_collections(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:1871: in get_collections
+    self.http.collections_api.get_collections().result
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:527: in get_collections
+    return self._build_for_get_collections()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:232: in _build_for_get_collections
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+tests\test_qdrant_service.py:93: in test_upserted_payload_has_chunk_id
+    ensure_collection_exists(vector_size=vector_size)
+app\knowledge_indexing\qdrant_service.py:127: in ensure_collection_exists
+    raise RuntimeError(
+E   RuntimeError: Could not ensure Qdrant collection 'product_chunks' exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: [Errno 11001] getaddrinfo failed
+____________ TestQdrantUpsert.test_upsert_idempotent_no_duplicates ____________
+..\venv\Lib\site-packages\httpx\_transports\default.py:101: in map_httpcore_exceptions
+    yield
+..\venv\Lib\site-packages\httpx\_transports\default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:256: in handle_request
+    raise exc from None
+..\venv\Lib\site-packages\httpcore\_sync\connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:101: in handle_request
+    raise exc
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:78: in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_sync\connection.py:124: in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpcore\_backends\sync.py:207: in connect_tcp
+    with map_exceptions(exc_map):
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpcore\_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:134: in send_inner
+    response = self._client.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\httpx\_transports\default.py:249: in handle_request
+    with map_httpcore_exceptions():
+..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:158: in __exit__
+    self.gen.throw(value)
+..\venv\Lib\site-packages\httpx\_transports\default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+app\knowledge_indexing\qdrant_service.py:102: in ensure_collection_exists
+    existing = [c.name for c in client.get_collections().collections]
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_client.py:1577: in get_collections
+    return self._client.get_collections(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:1871: in get_collections
+    self.http.collections_api.get_collections().result
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:527: in get_collections
+    return self._build_for_get_collections()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api\collections_api.py:232: in _build_for_get_collections
+    return self.api_client.request(
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:95: in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:112: in send
+    response = self.middleware(request, self.send_inner)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:149: in new_middleware
+    return middleware(request, inner_send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\context_headers.py:39: in rest_headers_middleware
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:147: in inner_send
+    return current_middleware(request, call_next)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:250: in __call__
+    return call_next(request)
+           ^^^^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\qdrant_client\http\api_client.py:136: in send_inner
+    raise ResponseHandlingException(e)
+E   qdrant_client.http.exceptions.ResponseHandlingException: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+tests\test_qdrant_service.py:104: in test_upsert_idempotent_no_duplicates
+    ensure_collection_exists(vector_size=vector_size)
+app\knowledge_indexing\qdrant_service.py:127: in ensure_collection_exists
+    raise RuntimeError(
+E   RuntimeError: Could not ensure Qdrant collection 'product_chunks' exists.
+------------------------------ Captured log call ------------------------------
+ERROR    app.knowledge_indexing.qdrant_service:qdrant_service.py:122 Failed to ensure Qdrant collection 'product_chunks' exists: [Errno 11001] getaddrinfo failed
+============================== warnings summary ===============================
+..\venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\abhis\OneDrive\Desktop\salescompass-ai\venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+app\auth\schemas.py:27
+  C:\Users\abhis\OneDrive\Desktop\salescompass-ai\backend\app\auth\schemas.py:27: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class UserResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_indexer.py::TestIndexChunkSuccess::test_index_chunk_returns_success
+FAILED tests/test_indexer.py::TestIndexChunkSuccess::test_result_has_qdrant_point_id
+FAILED tests/test_indexer.py::TestIndexChunkSuccess::test_result_has_no_error_on_success
+FAILED tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_in_qdrant_payload
+FAILED tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_in_postgres
+FAILED tests/test_indexer.py::TestChunkIdLinkage::test_chunk_id_identical_in_both_systems
+FAILED tests/test_indexer.py::TestChunkIdLinkage::test_metadata_stored_in_postgres
+FAILED tests/test_indexer.py::TestChunkIdLinkage::test_metadata_in_qdrant_payload
+FAILED tests/test_indexer.py::TestIdempotency::test_reindex_same_chunk_returns_success
+FAILED tests/test_indexer.py::TestIdempotency::test_reindex_no_pg_duplicates
+FAILED tests/test_indexer.py::TestBatchIndexing::test_index_chunks_processes_all
+FAILED tests/test_indexer.py::TestBatchIndexing::test_bad_chunk_does_not_abort_batch
+FAILED tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_document_id
+FAILED tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_chunk_id
+FAILED tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_metadata_fields
+FAILED tests/test_pipeline_integration.py::TestQdrantPayloadCompleteness::test_qdrant_payload_has_sheet_and_row
+FAILED tests/test_pipeline_integration.py::TestPostgreSQLLinkage::test_pg_record_created
+FAILED tests/test_pipeline_integration.py::TestPostgreSQLLinkage::test_pg_chunk_id_matches_qdrant
+FAILED tests/test_pipeline_integration.py::TestEndToEndPipeline::test_smoke_test_full_pipeline
+FAILED tests/test_pipeline_integration.py::TestEndToEndPipeline::test_idempotent_reindex_no_duplicate_retrieval
+FAILED tests/test_pipeline_integration.py::TestEndToEndPipeline::test_no_match_returns_empty_safely
+FAILED tests/test_pipeline_integration.py::TestEndToEndPipeline::test_document_filter
+FAILED tests/test_pipeline_integration.py::TestBatchPipelineIntegration::test_batch_index_from_phase3_chunks
+FAILED tests/test_pipeline_integration.py::TestBatchPipelineIntegration::test_batch_with_invalid_chunk_does_not_abort
+FAILED tests/test_postgres_service.py::TestPostgreSQLConnection::test_table_can_be_ensured
+FAILED tests/test_postgres_service.py::TestPostgreSQLConnection::test_table_ensure_is_idempotent
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_insert_returns_without_error
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_inserted_record_is_retrievable
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_all_metadata_fields_stored
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_upsert_updates_existing_record
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_upsert_no_duplicate_records
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_null_metadata_fields_allowed
+FAILED tests/test_postgres_service.py::TestPostgreSQLUpsert::test_timestamps_are_present
+FAILED tests/test_qdrant_service.py::TestQdrantConnection::test_collection_can_be_ensured
+FAILED tests/test_qdrant_service.py::TestQdrantConnection::test_collection_idempotent
+FAILED tests/test_qdrant_service.py::TestQdrantUpsert::test_upsert_returns_point_id
+FAILED tests/test_qdrant_service.py::TestQdrantUpsert::test_upserted_payload_has_chunk_id
+FAILED tests/test_qdrant_service.py::TestQdrantUpsert::test_upsert_idempotent_no_duplicates
+============ 38 failed, 53 passed, 2 warnings in 592.17s (0:09:52) ============

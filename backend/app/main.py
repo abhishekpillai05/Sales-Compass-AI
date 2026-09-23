@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # Phase 9: configure logging before anything else runs
 from app.logging.config import configure_logging
@@ -27,6 +28,17 @@ app = FastAPI(
         "Response Generation, Authentication, Query Logging, "
         "and Structured Request Logging."
     ),
+)
+
+# CORS — allow Vite dev server to make credentialed requests.
+# Wildcard origins are intentionally NOT used because allow_credentials=True
+# requires explicit origin(s) per the CORS specification.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Phase 9: attach HTTP request logging middleware
