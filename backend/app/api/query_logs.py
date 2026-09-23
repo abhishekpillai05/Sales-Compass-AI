@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.auth.dependencies import require_role
+from app.auth.roles import UserRole
 from app.database.models import User, QueryLog
 from app.database.session import SessionLocal
 
@@ -24,7 +25,7 @@ def get_db():
 
 @router.get("/query-logs")
 def get_query_logs(
-    current_user: User = Depends(require_role("admin")),
+    current_user: User = Depends(require_role(UserRole.ADMIN.value)),
     db: Session = Depends(get_db),
 ):
 

@@ -2,6 +2,9 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.database.session import SessionLocal
+from app.database.models import User
+from app.auth.dependencies import require_role
+from app.auth.roles import UserRole
 from app.ingestion.service import ingest_document
 from app.ingestion.bridge import document_chunks_to_chunk_inputs
 from app.knowledge_indexing import index_chunks
@@ -29,6 +32,7 @@ def get_db():
 async def upload_document(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_role(UserRole.ADMIN.value)),
 ):
     """
     Upload and process a PDF, Excel, or CSV document.

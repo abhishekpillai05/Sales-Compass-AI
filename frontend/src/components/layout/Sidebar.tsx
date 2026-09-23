@@ -5,6 +5,7 @@ import {
   Search,
   Upload,
   BarChart2,
+  Users,
   LogOut,
   Compass,
   Menu,
@@ -16,15 +17,16 @@ import { useState } from 'react';
 const navItems = [
   { to: '/chat', icon: MessageSquare, label: 'AI Assistant' },
   { to: '/search', icon: Search, label: 'Product Search' },
-  { to: '/upload', icon: Upload, label: 'Upload Documents' },
 ];
 
 const adminNavItems = [
+  { to: '/admin/users', icon: Users, label: 'Management' },
+  { to: '/upload', icon: Upload, label: 'Upload Documents' },
   { to: '/admin', icon: BarChart2, label: 'Query Logs' },
 ];
 
 export function Sidebar() {
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -88,7 +90,7 @@ export function Sidebar() {
             </NavLink>
           ))}
 
-          {user?.role === 'admin' && (
+          {isAdmin && (
             <>
               <div className="nav-section-label" style={{ marginTop: 8 }}>
                 Admin
@@ -117,7 +119,11 @@ export function Sidebar() {
               <div className="user-avatar">{initials}</div>
               <div className="user-info">
                 <div className="user-name">{user.username}</div>
-                <div className="user-role">{user.role}</div>
+                <div className="user-role">
+                  <span className={`role-badge ${isAdmin ? 'role-badge-admin' : 'role-badge-salesman'}`}>
+                    {isAdmin ? 'ADMIN' : 'SALESMAN'}
+                  </span>
+                </div>
               </div>
             </div>
           )}

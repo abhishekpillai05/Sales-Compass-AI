@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database.models import User, UserSession
 from app.database.session import SessionLocal
+from app.auth.roles import UserRole, UserStatus
 
 from typing import Callable
 def get_db():
@@ -70,18 +71,31 @@ def get_current_user(
             detail="User not found.",
         )
 
+    # Check if account access has been revoked by an administrator
+    if UserStatus.normalize(getattr(user, "status", None)) == UserStatus.REVOKED.value:
+        session.is_active = False
+        db.commit()
+        raise HTTPException(
+            status_code=403,
+            detail="Account has been revoked. Please contact an administrator.",
+        )
+
     return user
 
 
 
 def require_role(*allowed_roles: str):
+    normalized_allowed = set()
+    for role in allowed_roles:
+        normalized_allowed.add(UserRole.normalize(role))
+        normalized_allowed.add(role.upper())
+        normalized_allowed.add(role)
 
     def role_checker(
         current_user: User = Depends(get_current_user),
     ):
-
-        if current_user.role not in allowed_roles:
-
+        user_role = UserRole.normalize(current_user.role)
+        if user_role not in normalized_allowed and current_user.role not in normalized_allowed:
             raise HTTPException(
                 status_code=403,
                 detail="You do not have permission to perform this action.",

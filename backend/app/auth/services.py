@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.database.models import User
+from app.auth.roles import UserRole
 from app.auth.security import (
     hash_password,
     verify_password,
@@ -12,7 +13,7 @@ def create_user(
     username: str,
     email: str,
     password: str,
-    role: str = "user",
+    role: str = UserRole.SALESMAN.value,
 ) -> User:
     """
     Create a new user after checking
@@ -49,7 +50,7 @@ def create_user(
         username=username,
         email=email,
         password_hash=password_hash,
-        role=role,
+        role=UserRole.normalize(role),
     )
 
     db.add(user)

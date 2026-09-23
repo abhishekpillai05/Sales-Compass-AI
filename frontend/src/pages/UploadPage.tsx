@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import {
   Upload,
@@ -10,7 +11,7 @@ import {
   FileType,
 } from 'lucide-react';
 import { uploadApi } from '@/api/upload';
-import { getErrorMessage } from '@/contexts/AuthContext';
+import { useAuth, getErrorMessage } from '@/contexts/AuthContext';
 import { Spinner } from '@/components/common/Spinner';
 import type { UploadResponse } from '@/types/api';
 
@@ -35,9 +36,18 @@ interface UploadResult {
 }
 
 export function UploadPage() {
+  const { isAdmin, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
   const [pending, setPending] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [results, setResults] = useState<UploadResult[]>([]);
+
+  useEffect(() => {
+    if (!authLoading && !isAdmin) {
+      navigate('/chat', { replace: true });
+    }
+  }, [isAdmin, authLoading, navigate]);
 
   const onDrop = useCallback((accepted: File[]) => {
     setPending(prev => {

@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from app.auth.dependencies import get_current_user
+from app.database.models import User
 from app.retrieval.api_schemas import SearchRequest
 from app.retrieval.retriever import retrieve
 from app.logging.config import get_logger
@@ -14,7 +16,10 @@ router = APIRouter(
 
 
 @router.post("")
-def search(request: SearchRequest):
+def search(
+    request: SearchRequest,
+    current_user: User = Depends(get_current_user),
+):
 
     try:
 

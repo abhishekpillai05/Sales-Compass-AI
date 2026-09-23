@@ -17,11 +17,15 @@ export interface UserLogin {
   password: string;
 }
 
+export type UserRole = 'ADMIN' | 'SALESMAN';
+export type UserStatus = 'ACTIVE' | 'REVOKED';
+
 export interface UserResponse {
   id: number;
   username: string;
   email: string;
-  role: string;
+  role: UserRole | string;
+  status?: UserStatus | string;
 }
 
 // ── Search / Retrieval ───────────────────────────────────────────────────────
@@ -95,6 +99,21 @@ export interface UploadResponse {
 }
 
 // ── Admin ────────────────────────────────────────────────────────────────────
+
+export interface AdminUserItem {
+  id: number;
+  username: string;
+  email: string;
+  role: UserRole | string;
+  status: UserStatus | string;
+  created_at: string | null;
+  last_login: string | null;
+}
+
+export interface AdminUserListResponse {
+  users: AdminUserItem[];
+  total: number;
+}
 
 export interface QueryLog {
   id: number;

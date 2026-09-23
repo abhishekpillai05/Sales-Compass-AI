@@ -16,7 +16,7 @@ interface StatCard {
 }
 
 export function AdminPage() {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isAdmin, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   const [logs, setLogs] = useState<QueryLog[] | null>(null);
@@ -25,10 +25,10 @@ export function AdminPage() {
 
   // Redirect non-admins
   useEffect(() => {
-    if (!authLoading && user && user.role !== 'admin') {
+    if (!authLoading && !isAdmin) {
       navigate('/chat', { replace: true });
     }
-  }, [user, authLoading, navigate]);
+  }, [isAdmin, authLoading, navigate]);
 
   async function fetchLogs() {
     setIsLoading(true);
@@ -44,10 +44,10 @@ export function AdminPage() {
   }
 
   useEffect(() => {
-    if (!authLoading && user?.role === 'admin') {
+    if (!authLoading && isAdmin) {
       fetchLogs();
     }
-  }, [authLoading, user]);
+  }, [authLoading, isAdmin]);
 
   if (authLoading) {
     return (
@@ -57,7 +57,7 @@ export function AdminPage() {
     );
   }
 
-  if (user?.role !== 'admin') {
+  if (!isAdmin) {
     return (
       <EmptyState
         icon={<AlertTriangle size={24} />}

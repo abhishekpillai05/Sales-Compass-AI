@@ -21,7 +21,12 @@ class User(Base):
     # Renamed from 'password' to 'password_hash' to match auth/services.py
     # which stores and reads bcrypt hashes via this column.
     password_hash = Column(String, nullable=False)
-    role = Column(String, nullable=False)
+    role = Column(String, nullable=False, default="SALESMAN")
+    status = Column(String, nullable=False, default="ACTIVE", server_default="ACTIVE")
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+    )
 
 
 class Document(Base):

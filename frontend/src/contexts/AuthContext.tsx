@@ -14,6 +14,8 @@ interface AuthContextValue {
   user: UserResponse | null;
   isLoading: boolean;          // true while fetching /auth/me on mount
   isAuthenticated: boolean;
+  isAdmin: boolean;
+  isSalesman: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   error: string | null;
@@ -53,12 +55,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const clearError = useCallback(() => setError(null), []);
 
+  const roleUpper = user?.role?.toUpperCase();
+  const isAdmin = roleUpper === 'ADMIN';
+  const isSalesman = roleUpper === 'SALESMAN' || (!isAdmin && !!user);
+
   return (
     <AuthContext.Provider
       value={{
         user,
         isLoading,
         isAuthenticated: user !== null,
+        isAdmin,
+        isSalesman,
         login,
         logout,
         error,

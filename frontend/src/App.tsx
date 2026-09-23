@@ -16,6 +16,7 @@ import { ChatPage } from '@/pages/ChatPage';
 import { SearchPage } from '@/pages/SearchPage';
 import { UploadPage } from '@/pages/UploadPage';
 import { AdminPage } from '@/pages/AdminPage';
+import { ManagementPage } from '@/pages/ManagementPage';
 
 /**
  * Protects routes that require authentication.
@@ -48,6 +49,19 @@ function PublicRoute() {
   return <Outlet />;
 }
 
+/**
+ * Protects admin-only routes (/upload, /admin).
+ * Redirects non-admin users (e.g. Salesman) to /chat.
+ */
+function AdminRoute() {
+  const { isAdmin, isLoading } = useAuth();
+
+  if (isLoading) return <FullPageSpinner />;
+  if (!isAdmin) return <Navigate to="/chat" replace />;
+
+  return <Outlet />;
+}
+
 function AppRoutes() {
   return (
     <Routes>
@@ -57,12 +71,18 @@ function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
 
-      {/* Protected routes */}
+      {/* Protected routes (All authenticated users: ADMIN & SALESMAN) */}
       <Route element={<ProtectedRoute />}>
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/upload" element={<UploadPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+
+        {/* Admin-only routes */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/users" element={<ManagementPage />} />
+          <Route path="/management" element={<Navigate to="/admin/users" replace />} />
+          <Route path="/upload" element={<UploadPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Route>
       </Route>
 
       {/* Default redirect */}
