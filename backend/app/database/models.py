@@ -6,6 +6,7 @@ from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Text
 from sqlalchemy import JSON
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -36,6 +37,19 @@ class Document(Base):
 
     filename = Column(String, nullable=False)
 
+    # SHA-256 content hash of the uploaded file's raw binary bytes.
+    # 64 hexadecimal characters (256 bits / 4 bits-per-hex-digit).
+    # UNIQUE enforces global duplicate prevention: no two document records
+    # may share the same content hash, even when filenames differ.
+    # Nullable to maintain backward compatibility with pre-existing rows
+    # that were inserted before this column was introduced.
+    document_hash = Column(
+        String(64),
+        nullable=True,
+        unique=True,
+        index=True,
+    )
+
     uploaded_by = Column(
         Integer,
         ForeignKey("users.id")
@@ -44,6 +58,10 @@ class Document(Base):
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("document_hash", name="uq_documents_document_hash"),
     )
 
 

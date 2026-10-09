@@ -28,6 +28,28 @@ SCORE_THRESHOLD = float(
     )
 )
 
+_vector_name_cache: dict[str, Optional[str]] = {}
+
+
+def _resolve_vector_name(collection_name: str) -> Optional[str]:
+    """
+    Check if the Qdrant collection uses named vectors (e.g. 'dense')
+    and return the vector name to use for querying.
+    """
+    if collection_name in _vector_name_cache:
+        return _vector_name_cache[collection_name]
+    try:
+        coll = client.get_collection(collection_name)
+        vectors_config = coll.config.params.vectors
+        if isinstance(vectors_config, dict):
+            vname = "dense" if "dense" in vectors_config else next(iter(vectors_config.keys()), None)
+            _vector_name_cache[collection_name] = vname
+            return vname
+        _vector_name_cache[collection_name] = None
+        return None
+    except Exception:
+        return None
+
 
 def build_filter(
     sku: Optional[str] = None,
@@ -155,14 +177,20 @@ def retrieve(
     # Qdrant search
     # -----------------------------
 
-    results = client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=query_vector,
-        query_filter=query_filter,
-        limit=top_k,
-        score_threshold=score_threshold,
-        with_payload=True,
-    ).points
+    query_kwargs = {
+        "collection_name": COLLECTION_NAME,
+        "query": query_vector,
+        "query_filter": query_filter,
+        "limit": top_k,
+        "score_threshold": score_threshold,
+        "with_payload": True,
+    }
+
+    vector_name = _resolve_vector_name(COLLECTION_NAME)
+    if vector_name:
+        query_kwargs["using"] = vector_name
+
+    results = client.query_points(**query_kwargs).points
 
     # -----------------------------
     # Format results

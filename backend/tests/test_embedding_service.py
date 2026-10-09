@@ -1,15 +1,15 @@
-﻿"""
+"""
 Unit tests ΓÇö embedding_service.py
 
 Tests:
 1. Model loads without error
 2. generate_embedding returns a list
-3. Vector dimension is exactly 384 (BAAI/bge-small-en)
+3. Vector dimension is exactly 768 (BAAI/bge-base-en-v1.5)
 4. Empty text raises ValueError
 5. Whitespace-only text raises ValueError
 6. Non-string input raises ValueError
 7. Two calls on the same text return identical vectors (determinism)
-8. get_embedding_dimension returns 384
+8. get_embedding_dimension returns 768
 """
 
 import pytest
@@ -73,8 +73,8 @@ class TestGetEmbeddingDimension:
         dim = get_embedding_dimension()
         assert isinstance(dim, int)
 
-    def test_returns_384(self):
+    def test_returns_dimension(self):
         dim = get_embedding_dimension()
         assert dim == EXPECTED_EMBEDDING_DIM, (
-            f"BAAI/bge-small-en should have dimension 384, got {dim}"
+            f"BAAI/bge-base-en-v1.5 should have dimension {EXPECTED_EMBEDDING_DIM}, got {dim}"
         )

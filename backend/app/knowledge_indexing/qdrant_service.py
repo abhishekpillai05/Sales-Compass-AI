@@ -1,4 +1,4 @@
-﻿"""
+"""
 Qdrant Service ╬ô├ç├╢ Phase 4, Knowledge Indexing.
 
 Responsible ONLY for Qdrant operations:
@@ -212,6 +212,29 @@ def chunk_id_to_point_id(chunk_id: str) -> str:
     return str(uuid.uuid5(_POINT_ID_NAMESPACE, chunk_id))
 
 
+_vector_name_cache: Dict[str, Optional[str]] = {}
+
+
+def _resolve_vector_name(client: QdrantClient, collection_name: str) -> Optional[str]:
+    """
+    Check if the Qdrant collection uses named vectors (e.g. 'dense')
+    and return the vector name to use for upserting.
+    """
+    if collection_name in _vector_name_cache:
+        return _vector_name_cache[collection_name]
+    try:
+        coll = client.get_collection(collection_name)
+        vectors_config = coll.config.params.vectors
+        if isinstance(vectors_config, dict):
+            vname = "dense" if "dense" in vectors_config else next(iter(vectors_config.keys()), None)
+            _vector_name_cache[collection_name] = vname
+            return vname
+        _vector_name_cache[collection_name] = None
+        return None
+    except Exception:
+        return None
+
+
 # ---------------------------------------------------------------------------
 # Vector upsert
 # ---------------------------------------------------------------------------
@@ -225,7 +248,7 @@ def upsert_vector(
     Upsert a vector into the Qdrant collection.
 
     Uses chunk_id-derived UUID as the point ID so the operation is
-    idempotent ╬ô├ç├╢ re-indexing the same chunk overwrites the existing point.
+    idempotent — re-indexing the same chunk overwrites the existing point.
 
     Parameters
     ----------
@@ -261,13 +284,16 @@ def upsert_vector(
     # Always include chunk_id in the payload for cross-system linking.
     full_payload = {"chunk_id": chunk_id, **payload}
 
+    vec_name = _resolve_vector_name(client, collection_name)
+    vector_data: Any = {vec_name: vector} if vec_name else vector
+
     try:
         client.upsert(
             collection_name=collection_name,
             points=[
                 qdrant_models.PointStruct(
                     id=point_id,
-                    vector=vector,
+                    vector=vector_data,
                     payload=full_payload,
                 )
             ],

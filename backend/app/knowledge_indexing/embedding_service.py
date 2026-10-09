@@ -1,8 +1,8 @@
-﻿"""
+"""
 Embedding Service ╬ô├ç├╢ Phase 4, Knowledge Indexing.
 
 Responsible ONLY for generating embedding vectors from text.
-Uses BAAI/bge-small-en via sentence-transformers.
+Uses BAAI/bge-base-en-v1.5 via sentence-transformers.
 
 No Qdrant, no PostgreSQL, no ingestion logic here.
 """
@@ -18,11 +18,11 @@ logger = logging.getLogger(__name__)
 # Model constant
 # ---------------------------------------------------------------------------
 
-MODEL_NAME = "BAAI/bge-small-en"
+MODEL_NAME = "BAAI/bge-base-en-v1.5"
 
-# Expected embedding dimension for BAAI/bge-small-en.
+# Expected embedding dimension.
 # Determined from the model card; used for validation only.
-EXPECTED_EMBEDDING_DIM = 384
+EXPECTED_EMBEDDING_DIM = 768
 
 # ---------------------------------------------------------------------------
 # Lazy singleton ╬ô├ç├╢ model is loaded once on first use and reused.
@@ -83,7 +83,7 @@ def generate_embedding(text: str) -> List[float]:
     Returns
     -------
     List[float]
-        A 384-dimensional embedding vector (BAAI/bge-small-en output).
+        A 768-dimensional embedding vector.
 
     Raises
     ------

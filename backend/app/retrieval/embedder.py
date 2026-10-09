@@ -8,7 +8,7 @@ load_dotenv()
 
 MODEL_NAME = os.getenv(
     "EMBEDDING_MODEL",
-    "BAAI/bge-small-en"
+    "BAAI/bge-base-en-v1.5"
 )
 
 
