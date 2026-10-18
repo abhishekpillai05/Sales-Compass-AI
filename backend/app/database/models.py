@@ -189,6 +189,12 @@ class Conversation(Base):
         cascade="all, delete-orphan",
         order_by="ConversationMessage.created_at",
     )
+    sales_state = relationship(
+        "SalesConversationState",
+        back_populates="conversation",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
 
 
 class ConversationMessage(Base):
@@ -211,3 +217,43 @@ class ConversationMessage(Base):
     )
 
     conversation = relationship("Conversation", back_populates="messages")
+
+
+class SalesConversationState(Base):
+    __tablename__ = "sales_conversation_states"
+
+    id = Column(Integer, primary_key=True)
+    conversation_id = Column(
+        Integer,
+        ForeignKey("conversations.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    # Lifecycle stages: DISCOVERY, PRODUCT_MATCHING, DEAL_DISCUSSION, DEAL_FINALIZED, POST_SALE
+    stage = Column(String, nullable=False, default="DISCOVERY")
+    product_category = Column(String, nullable=True)
+    extracted_requirements = Column(JSON, nullable=False, default=dict)
+    candidate_products = Column(JSON, nullable=False, default=list)
+    selected_product = Column(JSON, nullable=True)
+    agreed_quantity = Column(Integer, nullable=True)
+    agreed_price = Column(String, nullable=True)
+    # Deal statuses: OPEN, PROPOSED, FINALIZED, CANCELLED
+    deal_status = Column(String, nullable=False, default="OPEN")
+    deal_finalized_at = Column(DateTime(timezone=True), nullable=True)
+    recommendations_generated = Column(Boolean, nullable=False, default=False)
+    recommendations = Column(JSON, nullable=True)
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    conversation = relationship("Conversation", back_populates="sales_state")
+

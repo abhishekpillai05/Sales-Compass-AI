@@ -18,6 +18,15 @@ import {
   Check,
   X,
   AlertCircle,
+  CheckCircle2,
+  Handshake,
+  Sparkles,
+  RefreshCw,
+  Layers,
+  ArrowUpRight,
+  HelpCircle,
+  PackageCheck,
+  CheckSquare,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { askApi } from '@/api/ask';
@@ -29,14 +38,17 @@ import type {
   ChatMessage,
   SourceResponse,
   Conversation,
+  SalesStateResponse,
+  CandidateProduct,
+  RecommendationItem,
 } from '@/types/api';
 
 const SUGGESTIONS = [
+  'I need a ladder for electrical maintenance work.',
+  'What walk-behind floor scrubbers do you offer?',
   'What is the Kärcher BD 43/40?',
-  'What are its main features?',
-  'Show products suitable for industrial cleaning.',
-  'Compare two available products.',
-  'Which products belong to a particular category?',
+  'Show products suitable for industrial warehouse cleaning.',
+  'Show networking switches with PoE+ support.',
 ];
 
 function SourceChip({ source }: { source: SourceResponse }) {
@@ -99,13 +111,20 @@ export function ChatPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [errorBanner, setErrorBanner] = useState<string | null>(null);
 
+  // Sales Conversation State
+  const [salesState, setSalesState] = useState<SalesStateResponse | null>(null);
+  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>([]);
+  const [dealQuantity, setDealQuantity] = useState<number>(1);
+  const [isFinalizingDeal, setIsFinalizingDeal] = useState(false);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isGenerating, isLoadingHistory]);
+  }, [messages, isGenerating, isLoadingHistory, salesState]);
 
   // Auto-grow textarea
   useEffect(() => {
@@ -132,7 +151,7 @@ export function ChatPage() {
     loadConversations();
   }, [loadConversations]);
 
-  // Select a conversation and load its messages
+  // Select a conversation and load its messages + persistent sales state
   const selectConversation = useCallback(
     async (id: number) => {
       if (activeConversationId === id && messages.length > 0) return;
@@ -150,6 +169,10 @@ export function ChatPage() {
           timestamp: new Date(m.created_at),
         }));
         setMessages(mappedMessages);
+        setSalesState(detail.sales_state ?? null);
+        if (detail.sales_state?.agreed_quantity) {
+          setDealQuantity(detail.sales_state.agreed_quantity);
+        }
       } catch (err) {
         setErrorBanner(getErrorMessage(err));
       } finally {
@@ -165,6 +188,9 @@ export function ChatPage() {
     setMessages([]);
     setInput('');
     setErrorBanner(null);
+    setSalesState(null);
+    setSuggestedQuestions([]);
+    setDealQuantity(1);
   }, []);
 
   // Delete a conversation
@@ -241,6 +267,12 @@ export function ChatPage() {
         };
 
         setMessages((prev) => [...prev, assistantMsg]);
+        setSalesState(res.sales_state ?? null);
+        setSuggestedQuestions(res.suggested_questions ?? []);
+
+        if (res.sales_state?.agreed_quantity) {
+          setDealQuantity(res.sales_state.agreed_quantity);
+        }
 
         // If this was a new conversation, set active ID and refresh conversation list
         if (activeConversationId === null && res.conversation_id) {
@@ -270,8 +302,89 @@ export function ChatPage() {
     }
   }
 
+  // Handle selecting candidate product
+  const handleSelectProduct = async (product: CandidateProduct) => {
+    if (!activeConversationId) return;
+    try {
+      const updated = await conversationsApi.selectProduct(activeConversationId, {
+        product,
+        quantity: dealQuantity,
+      });
+      setSalesState(updated);
+    } catch (err) {
+      setErrorBanner(getErrorMessage(err));
+    }
+  };
+
+  // Handle explicit deal confirmation
+  const handleConfirmDeal = async () => {
+    if (!activeConversationId) return;
+    setIsFinalizingDeal(true);
+    setErrorBanner(null);
+    try {
+      const updated = await conversationsApi.confirmDeal(activeConversationId, {
+        confirmation_text: 'I explicitly confirm and agree to this deal order.',
+        quantity: dealQuantity,
+      });
+      setSalesState(updated);
+
+      // Add a system assistant message in chat confirming finalisation
+      const confirmMsg: ChatMessage = {
+        id: newId(),
+        role: 'assistant',
+        content: `Deal explicitly finalised! Verified order for ${updated.agreed_quantity ?? dealQuantity}x ${updated.selected_product?.name ?? 'product'} (${updated.agreed_price ?? 'Standard'}). Add-on accessories and future upgrade recommendations are now eligible.`,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, confirmMsg]);
+    } catch (err) {
+      setErrorBanner(getErrorMessage(err));
+    } finally {
+      setIsFinalizingDeal(false);
+    }
+  };
+
+  // Handle loading recommendations
+  const handleLoadRecommendations = async () => {
+    if (!activeConversationId) return;
+    setIsLoadingRecommendations(true);
+    setErrorBanner(null);
+    try {
+      const recs = await conversationsApi.getRecommendations(activeConversationId);
+      setSalesState((prev) => (prev ? { ...prev, recommendations: recs, stage: 'POST_SALE' } : prev));
+    } catch (err) {
+      setErrorBanner(getErrorMessage(err));
+    } finally {
+      setIsLoadingRecommendations(false);
+    }
+  };
+
+  // Handle reopening deal for modifications
+  const handleReopenDeal = async () => {
+    if (!activeConversationId) return;
+    if (!window.confirm('Reopen this finalised deal to modify quantities or products?')) return;
+    try {
+      const updated = await conversationsApi.reopenDeal(activeConversationId, {
+        reason: 'Customer requested order change',
+      });
+      setSalesState(updated);
+      const reopenMsg: ChatMessage = {
+        id: newId(),
+        role: 'assistant',
+        content: 'Deal has been reopened for discussion and adjustments. Add-on recommendations are paused until terms are re-finalised.',
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, reopenMsg]);
+    } catch (err) {
+      setErrorBanner(getErrorMessage(err));
+    }
+  };
+
   const activeConv = conversations.find((c) => c.id === activeConversationId);
   const hasMessages = messages.length > 0;
+  const stage = salesState?.stage || 'DISCOVERY';
+  const isDealFinalized = salesState?.deal_status === 'FINALIZED';
+  const requirements = salesState?.extracted_requirements || {};
+  const hasRequirements = Object.keys(requirements).length > 0;
 
   return (
     <div className="chat-container">
@@ -429,16 +542,15 @@ export function ChatPage() {
                 {activeConv ? activeConv.title : 'AI Sales Assistant'}
               </h1>
               <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: 0 }}>
-                Powered by Groq · Qwen 3 · Qdrant Vector Retrieval
+                Powered by Groq · Qwen 3 · Intelligent Sales State Tracking
               </p>
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {/* Accuracy & Security Badge (Replaces old session-only warning) */}
             <span className="chat-secure-badge" role="status">
               <ShieldCheck size={14} />
-              Your conversations are saved securely to your account.
+              Conversations & deals saved in PostgreSQL
             </span>
 
             {activeConversationId !== null && (
@@ -453,6 +565,48 @@ export function ChatPage() {
             )}
           </div>
         </header>
+
+        {/* ── Sales State & Requirements Summary Bar ─────────────────────── */}
+        {activeConversationId !== null && salesState && (
+          <div className="sales-state-bar" id="sales-state-bar">
+            <div className="sales-state-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span className={`sales-stage-badge ${stage.toLowerCase()}`} id="sales-stage-badge">
+                  {stage === 'DISCOVERY' && <HelpCircle size={13} />}
+                  {stage === 'PRODUCT_MATCHING' && <Layers size={13} />}
+                  {stage === 'DEAL_DISCUSSION' && <Handshake size={13} />}
+                  {stage === 'DEAL_FINALIZED' && <CheckCircle2 size={13} />}
+                  {stage === 'POST_SALE' && <Sparkles size={13} />}
+                  Stage: {stage.replace('_', ' ')}
+                </span>
+                {salesState.product_category && (
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-neutral-600)', fontWeight: 500 }}>
+                    Category: <strong>{salesState.product_category.replace('_', ' ').toUpperCase()}</strong>
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: '0.75rem', color: isDealFinalized ? '#15803d' : '#b45309', fontWeight: 600 }}>
+                  Deal: {salesState.deal_status}
+                </span>
+              </div>
+            </div>
+
+            {hasRequirements && (
+              <div className="sales-requirements-list" id="sales-requirements-list">
+                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                  Extracted Requirements:
+                </span>
+                {Object.entries(requirements).map(([k, v]) => (
+                  <span key={k} className="sales-req-pill">
+                    <strong>{k.replace(/_/g, ' ')}:</strong> {String(v)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Error notification if any */}
         {errorBanner && (
@@ -496,7 +650,7 @@ export function ChatPage() {
             >
               <Spinner size={24} />
               <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
-                Loading conversation history...
+                Loading conversation & deal history...
               </p>
             </div>
           ) : !hasMessages ? (
@@ -507,11 +661,12 @@ export function ChatPage() {
               </div>
               <div style={{ textAlign: 'center' }}>
                 <h2 style={{ fontSize: '1.25rem', marginBottom: 8, fontWeight: 700 }}>
-                  How can I help you today?
+                  Intelligent Sales & Product Advisory
                 </h2>
-                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>
-                  Ask me anything about products in the catalogue. I search the knowledge base
-                  and remember prior context for follow-up questions.
+                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', maxWidth: 540, margin: '0 auto' }}>
+                  Ask for any equipment or product need. SalesCompass will identify key requirements,
+                  ask targeted follow-up questions, match catalogue products, and safely guide you through
+                  deal finalisation before offering cross-sell add-ons.
                 </p>
               </div>
               <div className="chat-suggestions">
@@ -532,6 +687,257 @@ export function ChatPage() {
               {messages.map((msg) => (
                 <MessageBubble key={msg.id} msg={msg} />
               ))}
+
+              {/* ── Candidate Matching Products Card Grid ────────────────── */}
+              {salesState?.candidate_products && salesState.candidate_products.length > 0 && !isDealFinalized && (
+                <div className="sales-candidates-container" id="matching-products-section">
+                  <div className="sales-candidates-title">
+                    <PackageCheck size={16} color="var(--color-brand-600)" />
+                    Matching Products from Catalogue ({salesState.candidate_products.length})
+                  </div>
+                  <div className="sales-candidates-grid">
+                    {salesState.candidate_products.map((prod) => {
+                      const isSelected = salesState.selected_product?.sku === prod.sku;
+                      return (
+                        <div
+                          key={prod.sku}
+                          className={`sales-candidate-card ${isSelected ? 'selected' : ''}`}
+                        >
+                          <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                              <h4 style={{ fontSize: '0.875rem', fontWeight: 700, margin: '0 0 2px 0' }}>
+                                {prod.name}
+                              </h4>
+                              <span style={{ fontSize: '0.7rem', padding: '1px 5px', background: '#e0e7ff', color: '#4338ca', borderRadius: 4, fontWeight: 600 }}>
+                                {prod.sku}
+                              </span>
+                            </div>
+                            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: '0 0 6px 0' }}>
+                              {prod.manufacturer ?? 'Catalog'} · {prod.category ?? 'Equipment'}
+                            </p>
+                            {prod.snippet && (
+                              <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
+                                {prod.snippet}
+                              </p>
+                            )}
+                          </div>
+                          <button
+                            className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-outline'}`}
+                            onClick={() => handleSelectProduct(prod)}
+                            style={{ width: '100%', marginTop: 8, fontSize: '0.75rem', padding: '4px 8px' }}
+                          >
+                            {isSelected ? '✓ Selected for Deal' : 'Select for Deal'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* ── Deal Discussion Card ─────────────────────────────────── */}
+              {salesState?.selected_product && !isDealFinalized && (
+                <div className="deal-card" id="deal-discussion-card">
+                  <div className="deal-card-header">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Handshake size={18} color="#b45309" />
+                      <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700, color: '#92400e' }}>
+                        Deal Discussion & Agreement Terms
+                      </h4>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: '#b45309', background: '#fef3c7', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                      Cross-selling disabled until finalised
+                    </span>
+                  </div>
+
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', margin: '4px 0 8px 0' }}>
+                    Agreed Item: <strong>{salesState.selected_product.name}</strong> ({salesState.selected_product.sku})
+                  </p>
+
+                  <div className="deal-terms-row">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                        Quantity:
+                      </label>
+                      <div className="deal-qty-stepper">
+                        <button
+                          onClick={() => setDealQuantity((q) => Math.max(1, q - 1))}
+                          type="button"
+                          aria-label="Decrease quantity"
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          min={1}
+                          value={dealQuantity}
+                          onChange={(e) => setDealQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                          aria-label="Deal quantity"
+                        />
+                        <button
+                          onClick={() => setDealQuantity((q) => q + 1)}
+                          type="button"
+                          aria-label="Increase quantity"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
+                      Unit Price: {salesState.selected_product.price && salesState.selected_product.price.startsWith('$') ? (
+                        <strong style={{ color: '#16a34a' }}>{salesState.selected_product.price} (Catalogue verified)</strong>
+                      ) : (
+                        <span style={{ fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
+                          {salesState.selected_product.price ?? 'Catalog quote / standard pricing'} (Quote on request)
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={handleConfirmDeal}
+                      disabled={isFinalizingDeal}
+                      id="confirm-deal-btn"
+                      style={{ marginLeft: 'auto', gap: 6, background: '#16a34a', borderColor: '#16a34a' }}
+                    >
+                      {isFinalizingDeal ? <Spinner size={14} /> : <CheckSquare size={15} />}
+                      Explicitly Confirm & Finalise Deal
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ── Finalised Deal Visible Confirmation Banner ───────────── */}
+              {isDealFinalized && (
+                <div className="deal-finalised-banner" id="deal-finalised-banner">
+                  <div className="deal-finalised-info">
+                    <CheckCircle2 size={24} color="#16a34a" />
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700, color: '#14532d' }}>
+                        Deal Finalised — Order Terms Locked
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '0.78rem', color: '#166534' }}>
+                        {salesState?.agreed_quantity ?? 1}x {salesState?.selected_product?.name ?? 'Selected Product'} ({salesState?.selected_product?.sku})
+                        {salesState?.agreed_price && (
+                          salesState.agreed_price.startsWith('$') ? (
+                            <> · <strong>{salesState.agreed_price}</strong></>
+                          ) : (
+                            <> · <span style={{ fontStyle: 'italic' }}>{salesState.agreed_price} (Quote)</span></>
+                          )
+                        )}
+                        {salesState?.deal_finalized_at && (
+                          <> · Confirmed on {format(new Date(salesState.deal_finalized_at), 'MMM d, yyyy HH:mm')}</>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    {!salesState?.recommendations && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={handleLoadRecommendations}
+                        disabled={isLoadingRecommendations}
+                        id="load-recommendations-btn"
+                        style={{ gap: 6 }}
+                      >
+                        {isLoadingRecommendations ? <Spinner size={14} /> : <Sparkles size={14} />}
+                        View Eligible Add-ons & Upgrades
+                      </button>
+                    )}
+                    <button
+                      className="btn btn-outline btn-sm"
+                      onClick={handleReopenDeal}
+                      title="Reopen deal to change quantity or item"
+                      id="reopen-deal-btn"
+                      style={{ gap: 6, fontSize: '0.75rem' }}
+                    >
+                      <RefreshCw size={13} />
+                      Reopen Deal
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ── Post-Deal Recommendations Section ────────────────────── */}
+              {isDealFinalized && salesState?.recommendations && (
+                <div className="recommendations-container" id="post-deal-recommendations-section">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Sparkles size={18} color="#7e22ce" />
+                      <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700, color: '#581c87' }}>
+                        Post-Deal Recommendations (Cross-Selling & Upselling)
+                      </h4>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: '#7e22ce', background: '#f3e8ff', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                      Backend Verified Catalogue Recommendations
+                    </span>
+                  </div>
+
+                  {/* Cross-Sell Accessories */}
+                  {salesState.recommendations.cross_sells?.length > 0 && (
+                    <div style={{ marginBottom: 14 }}>
+                      <h5 style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <PackageCheck size={14} color="var(--color-brand-600)" />
+                        Complementary Accessories & Supplies (Cross-Sell)
+                      </h5>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+                        {salesState.recommendations.cross_sells.map((rec: RecommendationItem) => (
+                          <div key={rec.sku} className="recommendation-card cross-sell">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span className="rec-type-badge cross-sell">Cross-sell / Accessory</span>
+                              <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                                {rec.sku}
+                              </span>
+                            </div>
+                            <h5 style={{ fontSize: '0.825rem', fontWeight: 700, margin: '2px 0' }}>
+                              {rec.name}
+                            </h5>
+                            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', margin: 0 }}>
+                              {rec.relevance_explanation}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Upsell Alternatives */}
+                  {salesState.recommendations.upsells?.length > 0 && (
+                    <div>
+                      <h5 style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <ArrowUpRight size={14} color="#9333ea" />
+                        Higher-Capacity Upgrades for Future Scale (Upsell)
+                      </h5>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+                        {salesState.recommendations.upsells.map((rec: RecommendationItem) => (
+                          <div key={rec.sku} className="recommendation-card upsell">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span className="rec-type-badge upsell">Upsell / Upgrade Option</span>
+                              <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                                {rec.sku}
+                              </span>
+                            </div>
+                            <h5 style={{ fontSize: '0.825rem', fontWeight: 700, margin: '2px 0' }}>
+                              {rec.name}
+                            </h5>
+                            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', margin: 0 }}>
+                              {rec.relevance_explanation}
+                            </p>
+                            {rec.trade_off_note && (
+                              <p style={{ fontSize: '0.72rem', color: '#6b21a8', background: '#f5f3ff', padding: '4px 6px', borderRadius: 4, margin: '4px 0 0 0' }}>
+                                💡 Note: {rec.trade_off_note}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {isGenerating && (
                 <div className="chat-bubble-wrapper assistant">
                   <div className="chat-bubble assistant" style={{ minWidth: 64 }}>
@@ -544,6 +950,24 @@ export function ChatPage() {
           )}
         </div>
 
+        {/* ── Suggested Follow-Up Questions Quick-Reply Chips ───────────── */}
+        {suggestedQuestions.length > 0 && !isGenerating && (
+          <div className="quick-questions-panel" id="quick-questions-panel">
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
+              Suggested Answers / Questions:
+            </span>
+            {suggestedQuestions.map((q, idx) => (
+              <button
+                key={idx}
+                className="quick-q-chip"
+                onClick={() => sendMessage(q)}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Input Area */}
         <div className="chat-input-area">
           <div className="chat-input-inner">
@@ -551,7 +975,7 @@ export function ChatPage() {
               ref={textareaRef}
               className="chat-input-field"
               placeholder={
-                isGenerating ? 'Generating response…' : 'Ask about any product or follow up…'
+                isGenerating ? 'Generating response…' : 'Ask about any product or answer follow-up questions…'
               }
               value={input}
               onChange={(e) => setInput(e.target.value)}

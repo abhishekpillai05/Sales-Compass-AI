@@ -39,13 +39,14 @@ def get_conversation(
     db: Session,
     conversation_id: int,
     user_id: int,
+    is_admin: bool = False,
 ) -> Conversation:
     """
-    Retrieve a conversation by ID, verifying that it belongs to user_id.
+    Retrieve a conversation by ID, verifying that it belongs to user_id or user is an admin.
 
     Raises:
         HTTPException(404): If conversation does not exist.
-        HTTPException(403): If conversation belongs to another user.
+        HTTPException(403): If conversation belongs to another user and requester is not an admin.
     """
     conversation = (
         db.query(Conversation)
@@ -59,7 +60,7 @@ def get_conversation(
             detail="Conversation not found.",
         )
 
-    if conversation.user_id != user_id:
+    if conversation.user_id != user_id and not is_admin:
         raise HTTPException(
             status_code=403,
             detail="You do not have permission to access this conversation.",

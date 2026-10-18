@@ -74,12 +74,71 @@ export interface SourceResponse {
   filename: string | null;
 }
 
+export type SalesStage =
+  | 'DISCOVERY'
+  | 'PRODUCT_MATCHING'
+  | 'DEAL_DISCUSSION'
+  | 'DEAL_FINALIZED'
+  | 'POST_SALE';
+
+export type DealStatus = 'OPEN' | 'PROPOSED' | 'FINALIZED' | 'CANCELLED';
+
+export interface CandidateProduct {
+  sku: string;
+  name: string;
+  category?: string | null;
+  manufacturer?: string | null;
+  filename?: string | null;
+  price?: string | null;
+  snippet?: string | null;
+}
+
+export interface RecommendationItem {
+  sku: string;
+  name: string;
+  category?: string | null;
+  manufacturer?: string | null;
+  type: 'cross_sell' | 'upsell';
+  relevance_explanation: string;
+  trade_off_note?: string | null;
+  estimated_price?: string | null;
+}
+
+export interface RecommendationsPayload {
+  finalised_deal?: {
+    sku?: string | null;
+    name?: string | null;
+    quantity?: number | null;
+    price?: string | null;
+    finalized_at?: string | null;
+  };
+  cross_sells: RecommendationItem[];
+  upsells: RecommendationItem[];
+}
+
+export interface SalesStateResponse {
+  stage: SalesStage | string;
+  product_category?: string | null;
+  extracted_requirements: Record<string, any>;
+  candidate_products: CandidateProduct[];
+  selected_product?: CandidateProduct | null;
+  agreed_quantity?: number | null;
+  agreed_price?: string | null;
+  deal_status: DealStatus | string;
+  deal_finalized_at?: string | null;
+  can_recommend_addons: boolean;
+  recommendations?: RecommendationsPayload | null;
+}
+
 export interface AskResponse {
   query: string;
   answer: string;
   conversation_id: number;
   sources: SourceResponse[];
+  sales_state?: SalesStateResponse | null;
+  suggested_questions?: string[] | null;
 }
+
 
 // ── Upload ───────────────────────────────────────────────────────────────────
 
@@ -152,7 +211,9 @@ export interface ConversationDetail {
   created_at: string;
   updated_at: string;
   messages: ConversationMessageItem[];
+  sales_state?: SalesStateResponse | null;
 }
+
 
 export type MessageRole = "user" | "assistant";
 

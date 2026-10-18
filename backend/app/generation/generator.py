@@ -34,10 +34,18 @@ def generate_response(
     query: str,
     retrieval_response: RetrievalResponse,
     conversation_history: list[dict] | None = None,
+    sales_guidance: dict | None = None,
 ) -> dict:
 
+    # If sales guidance is present (e.g. discovery with follow-up questions or deal stage),
+    # allow LLM to respond even if direct retrieval is empty
+    has_sales_context = bool(sales_guidance and (
+        sales_guidance.get("follow_up_questions") or
+        sales_guidance.get("stage") in ("DISCOVERY", "DEAL_DISCUSSION", "DEAL_FINALIZED", "POST_SALE")
+    ))
+
     # No retrieval results
-    if retrieval_response.total_results == 0:
+    if retrieval_response.total_results == 0 and not has_sales_context:
 
         return {
             "query": query,
@@ -55,7 +63,7 @@ def generate_response(
     )
 
     # All results were below threshold
-    if not relevant_chunks:
+    if not relevant_chunks and not has_sales_context:
 
         return {
             "query": query,
@@ -74,15 +82,17 @@ def generate_response(
     )
 
     # Build context
-    context = build_context(
-        filtered_response
-    )
+    if relevant_chunks:
+        context = build_context(filtered_response)
+    else:
+        context = "No specific catalog chunks directly matched the query words. Use the sales context to ask targeted follow-up questions."
 
     # Build prompt
     messages = build_messages(
         query=query,
         context=context,
         conversation_history=conversation_history,
+        sales_guidance=sales_guidance,
     )
 
     # Generate answer
