@@ -1,3 +1,4 @@
+import logging
 import secrets
 from datetime import datetime, timedelta, timezone
 
@@ -5,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.database.models import UserSession
 
+logger = logging.getLogger(__name__)
 
 SESSION_EXPIRE_DAYS = 7
 
@@ -13,6 +15,26 @@ def create_session(
     db: Session,
     user_id: int,
 ):
+    """
+    Create a new active session for the given user.
+    Enforces Single Active Session (Single Device / Last Login Wins):
+    Any preexisting active sessions for this user are deactivated immediately.
+    """
+    # Enforce single active session: invalidate prior active sessions
+    deactivated_count = (
+        db.query(UserSession)
+        .filter(
+            UserSession.user_id == user_id,
+            UserSession.is_active == True,
+        )
+        .update({"is_active": False})
+    )
+    if deactivated_count > 0:
+        logger.info(
+            "Deactivated %d previous active session(s) for user_id=%d (single active session policy)",
+            deactivated_count,
+            user_id,
+        )
 
     session_token = secrets.token_urlsafe(32)
 

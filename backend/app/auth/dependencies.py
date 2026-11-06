@@ -42,6 +42,24 @@ def get_current_user(
     )
 
     if not session:
+        # Check if the session exists in DB but is inactive
+        inactive_session = (
+            db.query(UserSession)
+            .filter(UserSession.session_token == session_token)
+            .first()
+        )
+        if inactive_session:
+            # Preserve 403 if the user was revoked
+            user = db.query(User).filter(User.id == inactive_session.user_id).first()
+            if user and UserStatus.normalize(getattr(user, "status", None)) == UserStatus.REVOKED.value:
+                raise HTTPException(
+                    status_code=403,
+                    detail="Account has been revoked. Please contact an administrator.",
+                )
+            raise HTTPException(
+                status_code=401,
+                detail="Session terminated. Your account was logged in from another device or session expired.",
+            )
 
         raise HTTPException(
             status_code=401,
